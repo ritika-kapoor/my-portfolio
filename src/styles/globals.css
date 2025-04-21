@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gradient-to-br from-background-dark to-background-light text-text-light;
+  }
+}
+
+@layer components {
+  .vintage-shadow {
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .vintage-border {
+    @apply border-2 border-accent/20;
+  }
+  
+  .vintage-card {
+    @apply bg-background-dark/50 backdrop-blur-sm vintage-border vintage-shadow 
+           rounded-lg p-6 transition-all duration-300 hover:transform hover:scale-[1.02];
+  }
+  
+  .vintage-button {
+    @apply px-6 py-3 bg-secondary hover:bg-secondary-light text-accent 
+           rounded vintage-shadow transition-all duration-300 
+           hover:transform hover:-translate-y-1;
+  }
+}
