@@ -72,3 +72,11 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+model ContactMessage {
+  id        Int      @id @default(autoincrement())
+  email     String
+  subject   String
+  message   String
+  createdAt DateTime @default(now())
+}

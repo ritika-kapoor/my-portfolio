@@ -45,7 +45,7 @@ export const ProjectsSection = () => {
             Featured <span className="text-secondary">Projects</span>
           </h2>
           <p className="text-accent/80 max-w-2xl mx-auto text-lg">
-            A curated collection of my finest work and technical achievements.
+            A curated collection.
           </p>
         </motion.div>
 
@@ -86,23 +86,23 @@ export const ProjectsSection = () => {
                     </span>
                   ))}
                 </div>
-                <div className="flex space-x-6 pt-4">
-                  <a
+                <div className="flex space-x-4">
+                  <motion.a
                     href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="vintage-button text-sm"
-                  >
-                    View Project
-                  </a>
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.08 }}
+                      whileTap={{ scale: 0.96 }}
+                      className="vintage-button border-accent text-accent hover:bg-accent hover:text-background-dark transition-colors"
+                    >
+                  </motion.a>
                   <a
                     href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-accent hover:text-secondary transition-colors duration-300 flex items-center space-x-2"
-                  >
-                    <span>GitHub</span>
-                    <span>→</span>
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    className="text-text-light hover:text-accent transition-colors"
+                    >
+                    GitHub →
                   </a>
                 </div>
               </div>

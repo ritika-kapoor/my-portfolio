@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useState } from 'react';
 import type { BlogPostPreview } from '~/types/blog';
 
 // This will be replaced with actual data from the API
@@ -13,7 +14,6 @@ const samplePosts: BlogPostPreview[] = [
     excerpt: 'Learn how to set up a new Next.js project with TypeScript and best practices for modern web development.',
     createdAt: new Date('2024-03-01'),
     tags: ['Next.js', 'TypeScript', 'Web Development'],
-    likes: 42
   },
   {
     id: '2',
@@ -22,7 +22,6 @@ const samplePosts: BlogPostPreview[] = [
     excerpt: 'Dive deep into the T3 stack - TypeScript, Tailwind, tRPC, and how they work together to create modern applications.',
     createdAt: new Date('2024-03-02'),
     tags: ['T3 Stack', 'TypeScript', 'Tailwind'],
-    likes: 35
   },
   {
     id: '3',
@@ -31,11 +30,17 @@ const samplePosts: BlogPostPreview[] = [
     excerpt: 'My personal journey transitioning from Electrical Engineering to Software Development, and lessons learned along the way.',
     createdAt: new Date('2024-03-03'),
     tags: ['Career', 'Learning', 'Personal Growth'],
-    likes: 28
   }
 ];
 
 export const BlogSection = () => {
+  // Like counters, client-side only
+  const [likes, setLikes] = useState(Array(samplePosts.length).fill(0));
+
+  const handleLike = (idx: number) => {
+    setLikes(likes => likes.map((l, i) => i === idx ? l + 1 : l));
+  };
+
   return (
     <section id="blog" className="py-24 bg-gradient-to-br from-background-dark via-background-light to-background-dark relative">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(251,233,208,0.03)_1px,transparent_1px)] bg-[length:24px_24px] opacity-30" />
@@ -95,16 +100,29 @@ export const BlogSection = () => {
                       day: 'numeric'
                     })}
                   </time>
-                  <div className="flex items-center space-x-2">
+                  <motion.button
+                    onClick={() => handleLike(index)}
+                    whileTap={{ scale: 1.3, rotate: -10 }}
+                    className="flex items-center gap-1 group cursor-pointer select-none"
+                    aria-label="Like this post"
+                  >
                     <svg
-                      className="w-5 h-5 text-secondary"
+                      className="w-5 h-5 text-secondary group-hover:text-accent transition-colors"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
                       <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
                     </svg>
-                    <span className="font-serif">{post.likes}</span>
-                  </div>
+                    <motion.span
+                      key={likes[index]}
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ duration: 0.3 }}
+                      className="font-serif"
+                    >
+                      {likes[index]}
+                    </motion.span>
+                  </motion.button>
                 </div>
               </div>
             </motion.article>
