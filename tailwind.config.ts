@@ -1,42 +1,56 @@
 import { type Config } from "tailwindcss";
-import { fontFamily } from "tailwindcss/defaultTheme";
 
 export default {
   content: ["./src/**/*.tsx"],
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-sans)", ...fontFamily.sans],
+        display: ["var(--font-display)", "monospace"],
+        body: ["var(--font-body)", "sans-serif"],
       },
       colors: {
-        primary: {
-          DEFAULT: '#244855',  // deep blue
-          light: '#90AEAD',    // muted blue-gray
-          dark: '#1a3640',     // darker blue
+        // Cozy game palette — warm, low-saturation
+        grass: {
+          light: "#a8c96d",
+          DEFAULT: "#7fae4e",
+          dark: "#5c8637",
         },
-        secondary: {
-          DEFAULT: '#E64833',  // terracotta
-          light: '#ff6b4a',    // lighter terracotta
-          dark: '#874F41',     // deep brown
+        dirt: {
+          light: "#c9a373",
+          DEFAULT: "#a67c52",
+          dark: "#7a5a3a",
         },
-        accent: {
-          DEFAULT: '#FBE9D0',  // vintage cream
-          light: '#fff4e6',    // lighter cream
-          dark: '#e6d4bc',     // darker cream
+        water: {
+          light: "#7dc7d6",
+          DEFAULT: "#4a9db0",
+          dark: "#2e6a7a",
         },
-        background: {
-          dark: '#1a3640',     // deep vintage blue
-          light: '#244855',    // medium vintage blue
+        sky: {
+          DEFAULT: "#f7e9d0", // warm parchment sky (used for UI bg)
+          dusk: "#e8b98a",
         },
-        text: {
-          light: '#FBE9D0',    // vintage cream
-          dark: '#244855',     // deep blue
-        }
+        wood: {
+          light: "#c98c5a",
+          DEFAULT: "#8b5a3c",
+          dark: "#5a3a26",
+        },
+        roof: {
+          DEFAULT: "#c14e4e",
+          dark: "#8a3535",
+        },
+        ink: {
+          DEFAULT: "#3a2a1a", // warm dark for text
+          light: "#5a4a3a",
+        },
+        // UI accents
+        firefly: "#ffd166",
+        petal: "#ef8fa3",
       },
-      backgroundImage: {
-        'gradient-primary': 'linear-gradient(to right, var(--tw-colors-background-dark), var(--tw-colors-background-light))',
+      boxShadow: {
+        pixel: "4px 4px 0 0 rgba(58, 42, 26, 0.9)",
+        "pixel-sm": "2px 2px 0 0 rgba(58, 42, 26, 0.9)",
       },
     },
   },
   plugins: [],
-} satisfies Config; 
+} satisfies Config;

@@ -1,15 +1,24 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { VT323, Nunito } from "next/font/google";
 import "./globals.css";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
 
-const inter = Inter({ subsets: ["latin"] });
+const display = VT323({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-display",
+  display: "swap",
+});
 
-// export const metadata: Metadata = {
-//   title: "Your Portfolio",
-//   description: "Personal portfolio showcasing my journey from EEE to Software Development",
-// };
+const body = Nunito({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
+
+export const metadata: Metadata = {
+  title: "Ritika — Playable Portfolio",
+  description: "A cozy, walkable portfolio. Use arrow keys or WASD to explore.",
+};
 
 export default function RootLayout({
   children,
@@ -17,14 +26,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className={`${inter.className} bg-background-dark`}>
-        <Navbar />
-        <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          {children}
-        </main>
-        <Footer />
+    <html lang="en">
+      <body className={`${display.variable} ${body.variable} no-select`}>
+        {children}
       </body>
     </html>
   );
-} 
+}
