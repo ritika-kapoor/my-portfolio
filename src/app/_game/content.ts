@@ -272,6 +272,9 @@ export type Photo = {
   alt: string;
   // Which hobby's gallery this photo belongs to. Must match a name in HOBBIES.
   // To give another hobby a gallery, add photos here with its name.
+  // Files live in public/photos/<folder>/ : photography, reading, music
+  // (guitar & flute), basketball, horse-riding, adventure-travel, biking,
+  // anime-kdrama.
   hobby: string;
   caption?: string;
   // CSS object-position, override the default "center" when the subject
@@ -281,21 +284,21 @@ export type Photo = {
 
 export const PHOTOS: Photo[] = [
   {
-    src: "/photos/photographer.jpg",
+    src: "/photos/photography/photographer.jpg",
     hobby: "Photography",
     alt: "Ritika with a camera on a boat",
     caption: "Bird-watching",
     focus: "center 20%",
   },
-  { src: "/photos/butterfly.jpg", hobby: "Photography", alt: "Yellow butterfly and white flowers", caption: "Butterfly" },
-  { src: "/photos/dragonfly.jpg", hobby: "Photography", alt: "Dragonfly on a green stem", caption: "Dragonfly", focus: "center 20%" },
-  { src: "/photos/barbet.jpg", hobby: "Photography", alt: "Blue-throated barbet on a branch", caption: "Blue-throated barbet" },
-  { src: "/photos/starling.jpg", hobby: "Photography", alt: "Chestnut-tailed starling in foliage", caption: "Chestnut-tailed starling" },
-  { src: "/photos/macaque.jpg", hobby: "Photography", alt: "Macaque perched on a fence", caption: "Curious macaque" },
-  { src: "/photos/squirrel.jpg", hobby: "Photography", alt: "Squirrel silhouette in a tree", caption: "Squirrel silhouette" },
-  { src: "/photos/foliage.jpg", hobby: "Photography", alt: "Bug on leaves against a bokeh background", caption: "Tiny visitor" },
+  { src: "/photos/photography/butterfly.jpg", hobby: "Photography", alt: "Yellow butterfly and white flowers", caption: "Butterfly" },
+  { src: "/photos/photography/dragonfly.jpg", hobby: "Photography", alt: "Dragonfly on a green stem", caption: "Dragonfly", focus: "center 20%" },
+  { src: "/photos/photography/barbet.jpg", hobby: "Photography", alt: "Blue-throated barbet on a branch", caption: "Blue-throated barbet" },
+  { src: "/photos/photography/starling.jpg", hobby: "Photography", alt: "Chestnut-tailed starling in foliage", caption: "Chestnut-tailed starling" },
+  { src: "/photos/photography/macaque.jpg", hobby: "Photography", alt: "Macaque perched on a fence", caption: "Curious macaque" },
+  { src: "/photos/photography/squirrel.jpg", hobby: "Photography", alt: "Squirrel silhouette in a tree", caption: "Squirrel silhouette" },
+  { src: "/photos/photography/foliage.jpg", hobby: "Photography", alt: "Bug on leaves against a bokeh background", caption: "Tiny visitor" },
   {
-    src: "/photos/climbing.jpg",
+    src: "/photos/adventure-travel/climbing.jpg",
     hobby: "Adventure & travel",
     alt: "Ritika rock climbing with a helmet",
     caption: "Rappelling",
