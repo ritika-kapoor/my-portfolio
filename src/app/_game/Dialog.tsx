@@ -345,41 +345,82 @@ function ProjectCard({ p }: { p: (typeof PROJECTS)[number] }) {
 
 // ---------------- Hobbies ----------------
 
+const GALLERY_TITLES: Record<string, string> = {
+  Photography: "Camera roll : birds, bugs & in between",
+};
+
 function HobbiesContent() {
+  const galleryFor = (hobby: string) => PHOTOS.filter((p) => p.hobby === hobby);
+  const [active, setActive] = useState<string>(
+    HOBBIES.find((h) => galleryFor(h).length > 0) ?? "",
+  );
+  const photos = active ? galleryFor(active) : [];
+
   return (
     <div className="space-y-6">
       <div>
         <SubHeading>Off-screen</SubHeading>
         <div className="flex flex-wrap gap-1">
-          {HOBBIES.map((h) => (
-            <span key={h} className="pill">
-              {h}
-            </span>
-          ))}
+          {HOBBIES.map((h) => {
+            const count = galleryFor(h).length;
+            if (count === 0) {
+              return (
+                <span key={h} className="pill">
+                  {h}
+                </span>
+              );
+            }
+            const selected = h === active;
+            return (
+              <button
+                key={h}
+                type="button"
+                aria-pressed={selected}
+                onClick={() => setActive(h)}
+                className={`pill cursor-pointer transition hover:-translate-y-[1px] ${
+                  selected ? "bg-firefly" : ""
+                }`}
+              >
+                {h} · {count}
+              </button>
+            );
+          })}
         </div>
+        <p className="mt-2 text-xs opacity-70">
+          Pick a hobby with a number to see its gallery.
+        </p>
       </div>
 
-      <div>
-        <SubHeading>Camera roll : birds, bugs & in between</SubHeading>
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-          {PHOTOS.map((p) => (
-            <figure key={p.src} className="overflow-hidden border-2 border-ink">
-              <img
-                src={p.src}
-                alt={p.alt}
-                loading="lazy"
-                className="h-32 w-full object-cover"
-                style={p.focus ? { objectPosition: p.focus } : undefined}
-              />
-              {p.caption && (
-                <figcaption className="border-t-2 border-ink bg-sky px-2 py-1 text-xs">
-                  {p.caption}
-                </figcaption>
-              )}
-            </figure>
-          ))}
+      {photos.length > 0 && (
+        <div>
+          <SubHeading>{GALLERY_TITLES[active] ?? `${active} : gallery`}</SubHeading>
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+            {photos.map((p) => (
+              <figure key={p.src} className="overflow-hidden border-2 border-ink">
+                <a
+                  href={p.src}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Open full-size photo: ${p.alt}`}
+                >
+                  <img
+                    src={p.src}
+                    alt={p.alt}
+                    loading="lazy"
+                    className="h-32 w-full object-cover"
+                    style={p.focus ? { objectPosition: p.focus } : undefined}
+                  />
+                </a>
+                {p.caption && (
+                  <figcaption className="border-t-2 border-ink bg-sky px-2 py-1 text-xs">
+                    {p.caption}
+                  </figcaption>
+                )}
+              </figure>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -407,7 +448,7 @@ function ContactContent() {
     <div className="space-y-3">
       <p className="leading-relaxed">
         Best way to reach me is email. LinkedIn works well too, and Instagram
-        is where the photography lives.
+        is the informal reflection of me.
       </p>
 
       <ContactRow
