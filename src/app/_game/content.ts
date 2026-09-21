@@ -263,6 +263,7 @@ export const HOBBIES: string[] = [
   "Basketball",
   "Horse riding",
   "Adventure & travel",
+  "Volunteering",
   "Biking",
   "Anime & K-drama",
 ];
@@ -273,8 +274,8 @@ export type Photo = {
   // Which hobby's gallery this photo belongs to. Must match a name in HOBBIES.
   // To give another hobby a gallery, add photos here with its name.
   // Files live in public/photos/<folder>/ : photography, reading, music
-  // (guitar & flute), basketball, horse-riding, adventure-travel, biking,
-  // anime-kdrama.
+  // (guitar & flute), basketball, horse-riding, adventure-travel,
+  // volunteering, biking, anime-kdrama.
   hobby: string;
   caption?: string;
   // CSS object-position, override the default "center" when the subject
