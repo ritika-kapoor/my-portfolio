@@ -16,7 +16,7 @@ const body = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "Ritika — Playable Portfolio",
+  title: "Ritika's Playable Portfolio",
   description: "A cozy, walkable portfolio. Use arrow keys or WASD to explore.",
 };
 

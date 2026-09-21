@@ -7,6 +7,7 @@ import { SECTION_TITLE } from "./world";
 import {
   ABOUT,
   CLUBS,
+  HACKATHON,
   HIGHLIGHTS,
   HOBBIES,
   PHOTOS,
@@ -101,7 +102,7 @@ function AboutContent() {
           {ABOUT.languages.map((l) => (
             <li key={l.name}>
               <span className="panel-title">{l.name}</span>
-              <span className="opacity-70"> — {l.note}</span>
+              <span className="opacity-70"> · {l.note}</span>
             </li>
           ))}
         </ul>
@@ -136,23 +137,23 @@ function JourneyContent() {
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <SubHeading>Clubs — now</SubHeading>
+          <SubHeading>Clubs: now</SubHeading>
           <ul className="space-y-1 text-sm">
             {CLUBS.now.map((c) => (
               <li key={c.name}>
                 <span className="panel-title">{c.name}</span>
-                <span className="opacity-70"> — {c.note}</span>
+                <span className="opacity-70"> · {c.note}</span>
               </li>
             ))}
           </ul>
         </div>
         <div>
-          <SubHeading>Clubs — school & college</SubHeading>
+          <SubHeading>Clubs: school & college</SubHeading>
           <ul className="space-y-1 text-sm">
             {CLUBS.school.map((c) => (
               <li key={c.name}>
                 <span className="panel-title">{c.name}</span>
-                <span className="opacity-70"> — {c.note}</span>
+                <span className="opacity-70"> · {c.note}</span>
               </li>
             ))}
           </ul>
@@ -229,12 +230,52 @@ function ProjectsContent() {
           ))}
         </div>
       </div>
+      <HackathonDetail />
       <div>
         <SubHeading>College · hardware & tinkering</SubHeading>
         <div className="space-y-3">
           {college.map((p) => (
             <ProjectCard key={p.title} p={p} />
           ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HackathonDetail() {
+  return (
+    <div>
+      <SubHeading>Hackathon deep dive</SubHeading>
+      <div className="panel space-y-4 px-4 py-3">
+        <div>
+          <h3 className="panel-title text-xl">{HACKATHON.title}</h3>
+          <div className="text-xs opacity-70">{HACKATHON.subtitle}</div>
+        </div>
+        {HACKATHON.sections.map((sec) => (
+          <div key={sec.label}>
+            <div className="panel-title text-sm">{sec.label}</div>
+            {sec.body && (
+              <p className="mt-1 text-sm leading-relaxed">{sec.body}</p>
+            )}
+            {sec.items && (
+              <ul className="mt-1 list-disc space-y-1 pl-5 text-sm leading-relaxed">
+                {sec.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+        <div>
+          <div className="panel-title mb-1 text-sm">Stack</div>
+          <div className="flex flex-wrap gap-1">
+            {HACKATHON.tech.map((t) => (
+              <span key={t} className="pill">
+                {t}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </div>
