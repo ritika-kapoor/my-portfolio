@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import type { SectionKey } from "./world";
 import { SECTION_SIGN, SECTION_TITLE } from "./world";
@@ -15,21 +16,27 @@ type Props = {
 export function Hud({ nearLabel, showIntro, onDismissIntro, onOpenSection }: Props) {
   return (
     <>
-      {/* Corner controls hint */}
-      <div className="pointer-events-none absolute left-4 top-4 z-10">
-        <div className="panel px-3 py-2 text-sm">
+      {/* Corner controls hint (keyboard only; touch devices get the d-pad) */}
+      <div className="absolute left-2 top-14 z-10 flex flex-col items-start gap-2 sm:left-4 sm:top-4">
+        <div className="panel pointer-events-none px-3 py-2 text-sm [@media(pointer:coarse)]:hidden">
           <div className="panel-title text-base">Move: WASD / Arrows</div>
           <div>Interact: E · Space</div>
         </div>
+        <Link
+          href="/resume"
+          className="panel panel-title px-3 py-1 text-sm transition hover:-translate-y-[2px] hover:shadow-[6px_6px_0_0_rgba(58,42,26,0.9)]"
+        >
+          Plain version ▸
+        </Link>
       </div>
 
       {/* Quick jump menu, top-right */}
-      <div className="pointer-events-auto absolute right-4 top-4 z-10 flex max-w-[60vw] flex-wrap justify-end gap-2">
+      <div className="pointer-events-auto absolute inset-x-2 top-2 z-10 flex justify-between gap-1 sm:left-auto sm:right-4 sm:top-4 sm:max-w-[60vw] sm:flex-wrap sm:justify-end sm:gap-2">
         {(Object.keys(SECTION_TITLE) as SectionKey[]).map((k) => (
           <button
             key={k}
             onClick={() => onOpenSection(k)}
-            className="panel panel-title px-3 py-1 text-sm transition hover:-translate-y-[2px] hover:shadow-[6px_6px_0_0_rgba(58,42,26,0.9)]"
+            className="panel panel-title px-1.5 py-1 text-xs transition hover:-translate-y-[2px] hover:shadow-[6px_6px_0_0_rgba(58,42,26,0.9)] sm:px-3 sm:text-sm"
             title={SECTION_TITLE[k]}
           >
             {SECTION_SIGN[k]}
@@ -88,7 +95,10 @@ export function Hud({ nearLabel, showIntro, onDismissIntro, onOpenSection }: Pro
                 <br />
                 Wander over to any house, then knock.
               </p>
-              <div className="mb-4 grid grid-cols-2 gap-2 text-sm">
+              <div className="mb-4 hidden text-sm [@media(pointer:coarse)]:block">
+                Use the on-screen pad to walk, then tap <span className="pill">E</span> at a door.
+              </div>
+              <div className="mb-4 grid grid-cols-2 gap-2 text-sm [@media(pointer:coarse)]:hidden">
                 <div className="panel px-2 py-1">
                   <span className="pill">WASD</span> or arrows to move
                 </div>
@@ -102,6 +112,16 @@ export function Hud({ nearLabel, showIntro, onDismissIntro, onOpenSection }: Pro
               >
                 Start ▸
               </button>
+              <div className="mt-4 text-sm">
+                In a hurry?{" "}
+                <Link
+                  href="/resume"
+                  onClick={(e) => e.stopPropagation()}
+                  className="underline"
+                >
+                  Read the plain version
+                </Link>
+              </div>
             </motion.div>
           </motion.div>
         )}

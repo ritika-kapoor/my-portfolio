@@ -77,3 +77,37 @@ canvas {
   user-select: none;
   -webkit-user-select: none;
 }
+
+/* Avoid double-tap zoom delays on touch devices */
+body {
+  touch-action: manipulation;
+}
+
+/* Plain (non-game) pages scroll inside their own container because the
+   game layout locks html/body scrolling. */
+.plain-scroll {
+  position: fixed;
+  inset: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  user-select: text;
+  -webkit-user-select: text;
+  background: #f7e9d0;
+  color: #3a2a1a;
+}
+
+@media print {
+  html,
+  body {
+    overflow: visible;
+    background: #fff;
+  }
+  .plain-scroll {
+    position: static;
+    overflow: visible;
+    background: #fff;
+  }
+  .no-print {
+    display: none !important;
+  }
+}

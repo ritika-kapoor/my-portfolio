@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import type { SectionKey } from "./world";
 import { SECTION_TITLE } from "./world";
@@ -31,7 +32,7 @@ export function Dialog({ section, onClose }: Props) {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.15 }}
-        className="fixed inset-0 z-30 flex items-center justify-center bg-black/40 p-4 backdrop-blur-[2px]"
+        className="fixed inset-0 z-30 flex items-center justify-center bg-black/40 p-2 backdrop-blur-[2px] sm:p-4"
         onClick={onClose}
       >
         <motion.div
@@ -39,7 +40,7 @@ export function Dialog({ section, onClose }: Props) {
           animate={{ y: 0, scale: 1 }}
           exit={{ y: 10, scale: 0.98 }}
           transition={{ type: "spring", stiffness: 400, damping: 30 }}
-          className="panel max-h-[85vh] w-full max-w-3xl overflow-y-auto p-6 sm:p-8"
+          className="panel max-h-[90dvh] w-full max-w-3xl overflow-y-auto p-4 sm:max-h-[85dvh] sm:p-8"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="mb-4 flex items-center justify-between">
@@ -252,6 +253,26 @@ function HackathonDetail() {
           <h3 className="panel-title text-xl">{HACKATHON.title}</h3>
           <div className="text-xs opacity-70">{HACKATHON.subtitle}</div>
         </div>
+        <figure className="overflow-hidden border-2 border-ink bg-white">
+          <a
+            href={HACKATHON.image.src}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open the full-size diagram in a new tab"
+          >
+            <Image
+              src={HACKATHON.image.src}
+              alt={HACKATHON.image.alt}
+              width={HACKATHON.image.width}
+              height={HACKATHON.image.height}
+              sizes="(min-width: 768px) 700px, 100vw"
+              className="h-auto w-full"
+            />
+          </a>
+          <figcaption className="border-t-2 border-ink bg-sky px-2 py-1 text-xs">
+            {HACKATHON.image.caption} · tap to enlarge
+          </figcaption>
+        </figure>
         {HACKATHON.sections.map((sec) => (
           <div key={sec.label}>
             <div className="panel-title text-sm">{sec.label}</div>

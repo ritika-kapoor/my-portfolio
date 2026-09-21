@@ -62,7 +62,7 @@ export function TouchControls({ onMove, onAction }: Props) {
   if (!isTouch) return null;
 
   return (
-    <div className="pointer-events-none absolute inset-x-0 bottom-4 z-10 flex items-end justify-between px-4">
+    <div className="pointer-events-none absolute inset-x-0 bottom-4 z-10 flex touch-none items-end justify-between px-4 pb-[env(safe-area-inset-bottom)]">
       {/* D-pad */}
       <div className="pointer-events-auto relative h-40 w-40">
         <button

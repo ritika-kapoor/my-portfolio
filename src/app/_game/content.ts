@@ -2,6 +2,7 @@
 
 export const PROFILE = {
   name: "Ritika Kapoor",
+  role: "Full Stack Web Developer",
   nameJa: "カプール　リティカ",
   tagline: "You only live once :)",
   location: "Setagaya-ku, Tokyo, Japan",
@@ -185,16 +186,16 @@ export const PROJECTS: Project[] = [
 ];
 
 export const HACKATHON = {
-  title: "Team Lakers: digital invitation platform",
+  title: "Team Lakers: digital wedding invitation platform",
   subtitle: "2025 company-wide hackathon · 1st place",
   sections: [
     {
       label: "What it was",
-      body: "A company-wide hackathon where cross-discipline teams built and presented a working product. Team Lakers took first place with an end-to-end invitation platform: a mobile admin app for creating invitations, a fast guest-facing web page, a Rust API and AWS infrastructure managed as code. The team name and logo came from a teammate's love of Kobe Bryant, blended with the IBJ heart.",
+      body: "A company-wide hackathon where cross-discipline teams built and presented a working product. Team Lakers took first place with an end-to-end digital wedding invitation platform: a mobile admin app for creating invitations, a fast guest-facing web page, a Rust API and AWS infrastructure managed as code. The team name and logo came from a teammate's love of Kobe Bryant, blended with the IBJ heart.",
     },
     {
       label: "Problem it solved",
-      body: "Hosts needed a simple way to create an invitation and collect RSVPs, and guests needed a page that loads instantly on any phone. The platform lets a host pick a template (fonts, colors, layout) in the app, and guests open a customized invitation, browse the gallery, and RSVP online.",
+      body: "Couples needed a simple way to create an invitation and collect RSVPs, and guests needed a page that loads instantly on any phone. The platform lets a host pick a template (fonts, colors, layout) in the app, and guests open a customized invitation, browse the gallery, and RSVP online.",
     },
     {
       label: "What we built",
@@ -202,7 +203,7 @@ export const HACKATHON = {
         "Guest web page (Svelte): template-driven invitation with Date & Venue, Our Story, Gallery and RSVP sections, styled dynamically from API data.",
         "Admin app (Flutter, iOS and Android): event-creation screens modeled on familiar event apps, shared with testers through Firebase App Distribution.",
         "Backend (Rust): onion-architecture API serving invitation content, benchmarked against a Go server.",
-        "Infrastructure (AWS + Terraform): architecture diagram, IaC and a CI/CD pipeline, plus an image-optimization layer.",
+        "Infrastructure (AWS + Terraform): a VPC with a load balancer routing /api and /rsvp to the app servers, a managed database in a private subnet, and an image-optimization layer, all defined as code with a CI/CD pipeline.",
         "Design (Figma): logo, three invitation templates, components and a clickable prototype.",
       ],
     },
@@ -220,6 +221,13 @@ export const HACKATHON = {
       body: "Svelte compiles work ahead of time and skips the virtual DOM, so the invitation page stayed light. In the team's benchmark it loaded about 3x faster than the Google top page. On the backend, Rust broke more between versions than Go did and the Go server benchmarked faster, so the team concluded Rust is not the best fit for web APIs even though it still shines for low-level work.",
     },
   ] as { label: string; body?: string; items?: string[] }[],
+  image: {
+    src: "/hackathon/aws-architecture.png",
+    alt: "AWS architecture diagram: GitHub and HCP Terraform provision a VPC with a load balancer, app servers and database, plus CloudFront, Lambda and S3 for image optimization.",
+    caption: "Infrastructure diagram: Terraform-managed AWS setup",
+    width: 1331,
+    height: 964,
+  },
   tech: [
     "Svelte",
     "Rust",
