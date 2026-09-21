@@ -80,7 +80,7 @@ export function Hud({ nearLabel, showIntro, onDismissIntro, onOpenSection }: Pro
                 className="panel-title mb-1 text-3xl"
                 style={{ letterSpacing: "0.04em" }}
               >
-                {PROFILE.name}'s Island
+                {PROFILE.name}&apos;s Island
               </div>
               <div className="mb-3 text-sm opacity-70">{PROFILE.tagline}</div>
               <p className="mb-4">

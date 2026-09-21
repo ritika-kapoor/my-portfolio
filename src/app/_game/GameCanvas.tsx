@@ -27,10 +27,15 @@ export function GameCanvas() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const keysRef = useRef<Record<string, boolean>>({});
   const touchRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
-  const playerRef = useRef({
+  const playerRef = useRef<{
+    x: number;
+    y: number;
+    facing: Facing;
+    walking: boolean;
+  }>({
     x: SPAWN.tx * TILE_SIZE + TILE_SIZE / 2,
     y: SPAWN.ty * TILE_SIZE + TILE_SIZE / 2,
-    facing: "down" as Facing,
+    facing: "down",
     walking: false,
   });
 
@@ -152,10 +157,10 @@ export function GameCanvas() {
       let vx = 0;
       let vy = 0;
       if (!paused) {
-        if (keys["arrowup"] || keys["w"]) vy -= 1;
-        if (keys["arrowdown"] || keys["s"]) vy += 1;
-        if (keys["arrowleft"] || keys["a"]) vx -= 1;
-        if (keys["arrowright"] || keys["d"]) vx += 1;
+        if (keys.arrowup || keys.w) vy -= 1;
+        if (keys.arrowdown || keys.s) vy += 1;
+        if (keys.arrowleft || keys.a) vx -= 1;
+        if (keys.arrowright || keys.d) vx += 1;
         vx += touch.x;
         vy += touch.y;
       }
