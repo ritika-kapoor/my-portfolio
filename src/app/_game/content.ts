@@ -428,7 +428,7 @@ export const PHOTOS: Photo[] = [
 
   // ---- Basketball ----
   { src: "/photos/basketball/team-photo.jpg", hobby: "Basketball", alt: "Ritika and three teammates in green basketball jerseys on a rooftop court", caption: "School basketball team" },
-  { src: "/photos/basketball/court-side.jpg", hobby: "Basketball", alt: "Ritika with an arm around a teammate, back turned to the camera", caption: "Post-match" },
+  { src: "/photos/basketball/court-side.jpg", hobby: "Basketball", alt: "Ritika with an arm around a teammate, back turned to the camera", caption: "Friends off the court" },
 
   // ---- Biking ----
   { src: "/photos/biking/motorcycle.jpg", hobby: "Biking", alt: "Ritika on a motorcycle wearing a helmet", caption: "Motorcycle ride" },
