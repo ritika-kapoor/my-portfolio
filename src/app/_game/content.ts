@@ -258,11 +258,12 @@ export const HIGHLIGHTS: Highlight[] = [
 
 export const HOBBIES: string[] = [
   "Photography",
-  "Reading (fiction)",
-  "Guitar & flute",
+  "Reading",
+  "Music",
   "Basketball",
   "Horse riding",
-  "Adventure & travel",
+  "Activities",
+  "Travel",
   "Volunteering",
   "Biking",
   "Anime & K-drama",
@@ -273,17 +274,21 @@ export type Photo = {
   alt: string;
   // Which hobby's gallery this photo belongs to. Must match a name in HOBBIES.
   // To give another hobby a gallery, add photos here with its name.
-  // Files live in public/photos/<folder>/ : photography, reading, music
-  // (guitar & flute), basketball, horse-riding, adventure-travel,
-  // volunteering, biking, anime-kdrama.
+  // Files live in public/photos/<folder>/ : photography, reading, music,
+  // basketball, horse-riding, activities, travel, volunteering, biking,
+  // anime-kdrama.
   hobby: string;
   caption?: string;
   // CSS object-position, override the default "center" when the subject
   // sits above (or below) the middle of the frame.
   focus?: string;
+  // Present for a video item: src above is the poster/thumbnail image,
+  // video is the clip itself (muted, looped, plays on tap).
+  video?: string;
 };
 
 export const PHOTOS: Photo[] = [
+  // ---- Photography ----
   {
     src: "/photos/photography/photographer.jpg",
     hobby: "Photography",
@@ -298,11 +303,102 @@ export const PHOTOS: Photo[] = [
   { src: "/photos/photography/macaque.jpg", hobby: "Photography", alt: "Macaque perched on a fence", caption: "Curious macaque" },
   { src: "/photos/photography/squirrel.jpg", hobby: "Photography", alt: "Squirrel silhouette in a tree", caption: "Squirrel silhouette" },
   { src: "/photos/photography/foliage.jpg", hobby: "Photography", alt: "Bug on leaves against a bokeh background", caption: "Tiny visitor" },
+  { src: "/photos/photography/moon.jpg", hobby: "Photography", alt: "Silhouette of a branch against a full moon", caption: "Full moon" },
+  { src: "/photos/photography/rabbit.jpg", hobby: "Photography", alt: "Rabbit with tall ears in the grass", caption: "Rabbit" },
+
+  // ---- Activities ----
   {
-    src: "/photos/adventure-travel/climbing.jpg",
-    hobby: "Adventure & travel",
+    src: "/photos/activities/climbing.jpg",
+    hobby: "Activities",
     alt: "Ritika rock climbing with a helmet",
     caption: "Rappelling",
     focus: "center 25%",
   },
+  { src: "/photos/activities/samurai-armor.jpg", hobby: "Activities", alt: "Ritika posing in a life-size samurai armor cutout at Atami Castle", caption: "Samurai armor photo-op" },
+  { src: "/photos/activities/kendo-experience.jpg", hobby: "Activities", alt: "Ritika in kendo attire swinging a sword in a dojo", caption: "Kendo experience" },
+  { src: "/photos/activities/snowboarding.jpg", hobby: "Activities", alt: "Ritika holding a snowboard at a ski resort", caption: "Snowboarding" },
+  { src: "/photos/activities/bodyboarding-1.jpg", hobby: "Activities", alt: "Ritika with a group at an outdoor adventure park", caption: "Adventure park day" },
+  { src: "/photos/travel/autumn-lake-2.jpg", hobby: "Travel", alt: "Ritika by a lake in autumn, giving a peace sign", caption: "Autumn foliage" },
+  { src: "/photos/activities/bodyboarding-3.jpg", hobby: "Activities", alt: "Ritika bodyboarding at dusk", caption: "Bodyboarding at dusk" },
+  { src: "/photos/activities/surfboarding.jpg", hobby: "Activities", alt: "Ritika holding a surfboard on the beach", caption: "Surfing" },
+  { src: "/photos/activities/snorkeling.jpg", hobby: "Activities", alt: "Ritika bodyboarding in the waves, smiling", caption: "Bodyboarding" },
+  { src: "/photos/travel/aquarium-whale-shark-2.jpg", hobby: "Travel", alt: "Silhouette of Ritika watching a whale shark at an aquarium", caption: "Whale shark, Okinawa aquarium" },
+  { src: "/photos/travel/okinawa-beach.jpg", hobby: "Travel", alt: "Ritika jumping on a beach with a bridge in the background", caption: "Okinawa" },
+  { src: "/photos/activities/casino-night.jpg", hobby: "Activities", alt: "Poker chips and cards on a casino table", caption: "Casino night" },
+  { src: "/photos/activities/adventure-park-1.jpg", hobby: "Activities", alt: "Ritika scuba diving, kneeling on a coral reef", caption: "Scuba diving" },
+  { src: "/photos/activities/adventure-park-2.jpg", hobby: "Activities", alt: "Close-up of Ritika snorkeling underwater with a dive mask", caption: "Snorkeling" },
+  {
+    src: "/photos/activities/bouldering-poster.jpg",
+    hobby: "Activities",
+    alt: "Ritika bouldering on a climbing wall",
+    caption: "Bouldering",
+    video: "/photos/activities/bouldering.mp4",
+  },
+  {
+    src: "/photos/activities/adventure-clip-poster.jpg",
+    hobby: "Activities",
+    alt: "A gravity go-kart running down a race track",
+    caption: "Go-kart racing",
+    video: "/photos/activities/adventure-clip.mp4",
+  },
+  {
+    src: "/photos/activities/meta-glasses-poster.jpg",
+    hobby: "Activities",
+    alt: "Ritika trying AR glasses in an office",
+    caption: "Trying AR glasses",
+    video: "/photos/activities/meta-glasses.mp4",
+  },
+
+  // ---- Travel ----
+  { src: "/photos/travel/mt-tsukuba.jpg", hobby: "Travel", alt: "Ritika at the Mt. Tsukuba summit sign", caption: "Mt. Tsukuba" },
+  { src: "/photos/travel/izu.jpg", hobby: "Travel", alt: "Ritika at a sea cave arch in Izu at sunset", caption: "Izu coastline" },
+  { src: "/photos/travel/nara-deer-park.jpg", hobby: "Travel", alt: "Ritika with a deer in Nara Park", caption: "Nara deer park" },
+  { src: "/photos/activities/forest-hike-2.jpg", hobby: "Activities", alt: "Ritika walking down a forest staircase on a hike", caption: "Forest hike" },
+  { src: "/photos/travel/aquarium-whale-shark.jpg", hobby: "Travel", alt: "Ritika standing before a fern-covered cave shrine", caption: "Cave shrine" },
+  { src: "/photos/travel/okinawa-bridge.jpg", hobby: "Travel", alt: "Ritika at a misty mountain viewpoint with a wooden fence", caption: "Mountain viewpoint" },
+  { src: "/photos/travel/squirrel-village.jpg", hobby: "Travel", alt: "Ritika reaching toward a squirrel exhibit at Squirrel Village", caption: "Squirrel Village" },
+  { src: "/photos/travel/suzuka-circuit.jpg", hobby: "Travel", alt: "Ritika at the grandstand of Suzuka Circuit", caption: "Suzuka Circuit" },
+  { src: "/photos/travel/india-stepwell.jpg", hobby: "Travel", alt: "Ritika standing before a fern-covered cave shrine", caption: "Cave shrine, India" },
+  { src: "/photos/travel/india-museum.jpg", hobby: "Travel", alt: "Ritika examining illustrated manuscripts in a small museum", caption: "Museum visit, India" },
+  { src: "/photos/travel/lake-garden.jpg", hobby: "Travel", alt: "Ritika by a lily pond in a Japanese garden", caption: "Garden pond" },
+  { src: "/photos/travel/zoo-monkey.jpg", hobby: "Travel", alt: "Ritika reaching out to a small monkey at the zoo", caption: "Zoo visit" },
+
+  // ---- Basketball ----
+  { src: "/photos/basketball/team-photo.jpg", hobby: "Basketball", alt: "Ritika and three teammates in green basketball jerseys on a rooftop court", caption: "School basketball team" },
+  { src: "/photos/basketball/court-side.jpg", hobby: "Basketball", alt: "Ritika with an arm around a teammate, back turned to the camera", caption: "Post-match" },
+
+  // ---- Biking ----
+  { src: "/photos/biking/motorcycle.jpg", hobby: "Biking", alt: "Ritika on a motorcycle wearing a helmet", caption: "Motorcycle ride" },
+  { src: "/photos/biking/atv-ride.jpg", hobby: "Biking", alt: "Ritika riding an ATV in off-road gear", caption: "ATV off-roading" },
+  { src: "/photos/biking/royal-enfield.jpg", hobby: "Biking", alt: "Ritika on a Royal Enfield motorcycle on a mountain road", caption: "Royal Enfield tour" },
+
+  // ---- Horse riding ----
+  { src: "/photos/horse-riding/arena.jpg", hobby: "Horse riding", alt: "Ritika riding a horse over a jump in an arena", caption: "Show-jumping practice" },
+  {
+    src: "/photos/horse-riding/canter-poster.jpg",
+    hobby: "Horse riding",
+    alt: "Ritika cantering a horse around a jumping course",
+    caption: "Cantering",
+    video: "/photos/horse-riding/canter.mp4",
+  },
+
+  // ---- Music ----
+  { src: "/photos/music/electric-guitar.jpg", hobby: "Music", alt: "Ritika playing an electric guitar", caption: "Playing guitar" },
+  { src: "/photos/music/license-plate-guitar.jpg", hobby: "Music", alt: "Ritika holding a novelty guitar made of license plates", caption: "Novelty guitar, Old Tucson" },
+  {
+    src: "/photos/music/flute-poster.jpg",
+    hobby: "Music",
+    alt: "Ritika playing the flute",
+    caption: "Playing flute",
+    video: "/photos/music/flute.mp4",
+  },
+
+  // ---- Volunteering ----
+  { src: "/photos/volunteering/english-class.jpg", hobby: "Volunteering", alt: "Ritika teaching an English grammar lesson on a chalkboard", caption: "Teaching English" },
+  { src: "/photos/volunteering/physics-class.jpg", hobby: "Volunteering", alt: "Ritika teaching a physics lesson on light and reflection", caption: "Teaching physics" },
+  { src: "/photos/volunteering/wall-mural.jpg", hobby: "Volunteering", alt: "Ritika painting a conserve-water mural on a wall with other volunteers", caption: "Water-conservation mural" },
+  { src: "/photos/volunteering/classroom-group.jpg", hobby: "Volunteering", alt: "Ritika with a group of students in a classroom", caption: "With the class" },
+  { src: "/photos/volunteering/kids-classroom.jpg", hobby: "Volunteering", alt: "Ritika teaching younger children seated on the floor", caption: "Teaching younger kids" },
+  { src: "/photos/volunteering/campus-drive.jpg", hobby: "Volunteering", alt: "Ritika and friends with painted faces during a campus awareness drive", caption: "Campus awareness drive" },
+  { src: "/photos/volunteering/rural-school-visit.jpg", hobby: "Volunteering", alt: "Ritika sitting at a desk in a rural schoolhouse", caption: "Rural school visit" },
 ];

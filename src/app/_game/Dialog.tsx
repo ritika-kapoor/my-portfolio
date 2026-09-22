@@ -349,12 +349,17 @@ const GALLERY_TITLES: Record<string, string> = {
   Photography: "Camera roll : birds, bugs & in between",
 };
 
+// Large galleries show this many tiles before a "View all" toggle appears.
+const GALLERY_PAGE_SIZE = 9;
+
 function HobbiesContent() {
   const galleryFor = (hobby: string) => PHOTOS.filter((p) => p.hobby === hobby);
   const [active, setActive] = useState<string>(
     HOBBIES.find((h) => galleryFor(h).length > 0) ?? "",
   );
-  const photos = active ? galleryFor(active) : [];
+  const [showAll, setShowAll] = useState(false);
+  const allPhotos = active ? galleryFor(active) : [];
+  const photos = showAll ? allPhotos : allPhotos.slice(0, GALLERY_PAGE_SIZE);
 
   return (
     <div className="space-y-6">
@@ -376,7 +381,10 @@ function HobbiesContent() {
                 key={h}
                 type="button"
                 aria-pressed={selected}
-                onClick={() => setActive(h)}
+                onClick={() => {
+                  setActive(h);
+                  setShowAll(false);
+                }}
                 className={`pill cursor-pointer transition hover:-translate-y-[1px] ${
                   selected ? "bg-firefly" : ""
                 }`}
@@ -396,32 +404,61 @@ function HobbiesContent() {
           <SubHeading>{GALLERY_TITLES[active] ?? `${active} : gallery`}</SubHeading>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
             {photos.map((p) => (
-              <figure key={p.src} className="overflow-hidden border-2 border-ink">
-                <a
-                  href={p.src}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Open full-size photo: ${p.alt}`}
-                >
-                  <img
-                    src={p.src}
-                    alt={p.alt}
-                    loading="lazy"
-                    className="h-32 w-full object-cover"
-                    style={p.focus ? { objectPosition: p.focus } : undefined}
-                  />
-                </a>
-                {p.caption && (
-                  <figcaption className="border-t-2 border-ink bg-sky px-2 py-1 text-xs">
-                    {p.caption}
-                  </figcaption>
-                )}
-              </figure>
+              <PhotoTile key={p.src} photo={p} />
             ))}
           </div>
+          {allPhotos.length > GALLERY_PAGE_SIZE && (
+            <button
+              type="button"
+              onClick={() => setShowAll((v) => !v)}
+              className="pill mt-2 cursor-pointer"
+            >
+              {showAll ? "Show fewer" : `View all ${allPhotos.length}`}
+            </button>
+          )}
         </div>
       )}
     </div>
+  );
+}
+
+function PhotoTile({ photo: p }: { photo: (typeof PHOTOS)[number] }) {
+  return (
+    <figure className="overflow-hidden border-2 border-ink">
+      {p.video ? (
+        <video
+          src={p.video}
+          poster={p.src}
+          controls
+          playsInline
+          muted
+          loop
+          preload="none"
+          className="h-32 w-full object-cover"
+          style={p.focus ? { objectPosition: p.focus } : undefined}
+        />
+      ) : (
+        <a
+          href={p.src}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Open full-size photo: ${p.alt}`}
+        >
+          <img
+            src={p.src}
+            alt={p.alt}
+            loading="lazy"
+            className="h-32 w-full object-cover"
+            style={p.focus ? { objectPosition: p.focus } : undefined}
+          />
+        </a>
+      )}
+      {p.caption && (
+        <figcaption className="border-t-2 border-ink bg-sky px-2 py-1 text-xs">
+          {p.caption}
+        </figcaption>
+      )}
+    </figure>
   );
 }
 
