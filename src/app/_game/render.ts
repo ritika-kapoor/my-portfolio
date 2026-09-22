@@ -5,6 +5,7 @@ import {
   MAP_HEIGHT,
   LANDMARKS,
   SECTION_SIGN,
+  type SectionKey,
 } from "./world";
 
 const COLORS = {
@@ -191,11 +192,181 @@ export function drawGround(
   }
 }
 
+// Small glyphs (notes, sparks, ...) that rise, drift and fade above a
+// house's roof while the player stands near its door. Shared by several
+// per-house effects below; each gets its own glyph set and colors.
+function drawFloatingGlyphs(
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  topY: number,
+  t: number,
+  glyphs: string[],
+  color: string,
+  shadow: string,
+) {
+  const count = glyphs.length;
+  const cycle = 2.6; // seconds per glyph's full rise-and-fade
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  for (let i = 0; i < count; i++) {
+    const phase = ((t + (i * cycle) / count) % cycle) / cycle;
+    const rise = 40;
+    const y = topY - phase * rise;
+    const spread = (i - (count - 1) / 2) * 13;
+    const x = cx + Math.sin(t * 1.6 + i * 2.1) * 8 + spread;
+    const size = 12 + (i % 3) * 2;
+    const alpha = Math.sin(phase * Math.PI); // fades in, peaks mid-rise, fades out
+    ctx.globalAlpha = alpha;
+    ctx.font = `bold ${size}px var(--font-display), monospace`;
+    // dark shadow copy underneath for contrast, then the color on top
+    ctx.fillStyle = shadow;
+    ctx.fillText(glyphs[i % glyphs.length]!, x + 1, y + 1);
+    ctx.fillStyle = color;
+    ctx.fillText(glyphs[i % glyphs.length]!, x, y);
+  }
+  ctx.globalAlpha = 1;
+}
+const NOTE_GLYPHS = ["♪", "♫", "♪", "♬", "♫"];
+const SPARK_GLYPHS = ["✦", "✧", "✦"];
+
+// A gear that spins continuously above the Skills house while the player
+// is standing near its door.
+function drawSpinningGear(
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  cy: number,
+  t: number,
+) {
+  const r = 7;
+  const teeth = 6;
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(t * 1.6);
+  ctx.fillStyle = "#3a5f8a";
+  ctx.beginPath();
+  for (let i = 0; i < teeth; i++) {
+    const a0 = (i / teeth) * Math.PI * 2;
+    const a1 = a0 + Math.PI / teeth;
+    ctx.lineTo(Math.cos(a0) * (r + 3), Math.sin(a0) * (r + 3));
+    ctx.lineTo(Math.cos(a1) * r, Math.sin(a1) * r);
+  }
+  ctx.closePath();
+  ctx.fill();
+  ctx.fillStyle = "#7dc7d6";
+  ctx.beginPath();
+  ctx.arc(0, 0, 3, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+}
+
+// A little compass with a needle swinging back and forth (searching for
+// direction), above the Journey house while the player stands near its door.
+function drawSwingingCompass(
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  cy: number,
+  t: number,
+) {
+  const r = 7;
+  ctx.fillStyle = "#f7e9d0";
+  ctx.strokeStyle = "#8a6f35";
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(Math.sin(t * 1.8) * 0.9);
+  ctx.fillStyle = "#c14e4e";
+  ctx.beginPath();
+  ctx.moveTo(0, -r + 1.5);
+  ctx.lineTo(-2, 0);
+  ctx.lineTo(2, 0);
+  ctx.closePath();
+  ctx.fill();
+  ctx.fillStyle = "#3a2a1a";
+  ctx.beginPath();
+  ctx.moveTo(0, r - 1.5);
+  ctx.lineTo(-2, 0);
+  ctx.lineTo(2, 0);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+
+  ctx.fillStyle = "#3a2a1a";
+  ctx.beginPath();
+  ctx.arc(cx, cy, 1.3, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+// A little speech bubble with pulsing dots above the About house.
+function drawSpeechBubble(
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  bottomY: number,
+  t: number,
+) {
+  const w = 24;
+  const h = 15;
+  const bx = cx - w / 2;
+  const by = bottomY - h - 6;
+  ctx.fillStyle = "#f7e9d0";
+  ctx.strokeStyle = "#3a2a1a";
+  ctx.lineWidth = 1.3;
+  ctx.beginPath();
+  ctx.roundRect(bx, by, w, h, 4);
+  ctx.fill();
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(cx - 3, by + h);
+  ctx.lineTo(cx, by + h + 5);
+  ctx.lineTo(cx + 3, by + h);
+  ctx.closePath();
+  ctx.fillStyle = "#f7e9d0";
+  ctx.fill();
+  for (let i = 0; i < 3; i++) {
+    const s = 1.5 + Math.sin(t * 4 + i * 1.4) * 0.8;
+    ctx.fillStyle = "#3a2a1a";
+    ctx.beginPath();
+    ctx.arc(bx + w * 0.25 * (i + 1), by + h / 2, Math.max(0.6, s), 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+// A little envelope bobbing gently above the Contact house.
+function drawBobbingEnvelope(
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  topY: number,
+  t: number,
+) {
+  const y = topY + Math.sin(t * 2.2) * 3;
+  const w = 18;
+  const h = 12;
+  const x = cx - w / 2;
+  ctx.fillStyle = "#f7e9d0";
+  ctx.strokeStyle = "#3a2a1a";
+  ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  ctx.rect(x, y, w, h);
+  ctx.fill();
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  ctx.lineTo(x + w / 2, y + h * 0.6);
+  ctx.lineTo(x + w, y);
+  ctx.stroke();
+}
+
 // Each landmark drawn as a cozy little house.
 export function drawLandmarks(
   ctx: CanvasRenderingContext2D,
   viewX: number,
   viewY: number,
+  t: number,
+  nearSection: SectionKey | null,
 ) {
   for (const lm of LANDMARKS) {
     const px = lm.tx * TILE_SIZE - viewX;
@@ -264,6 +435,36 @@ export function drawLandmarks(
     ctx.fillRect(signX, signY, signW, signH);
     ctx.fillStyle = "#3a2a1a";
     ctx.fillText(label, px + w * 0.5, signY + signH * 0.5 + 1);
+
+    if (lm.section === "hobbies" && nearSection === "hobbies") {
+      drawFloatingGlyphs(
+        ctx,
+        px + w * 0.5,
+        py - 4,
+        t,
+        NOTE_GLYPHS,
+        "#4a2158",
+        "#221028",
+      );
+    } else if (lm.section === "projects" && nearSection === "projects") {
+      drawFloatingGlyphs(
+        ctx,
+        px + w * 0.5,
+        py - 4,
+        t,
+        SPARK_GLYPHS,
+        "#8a4a2a",
+        "#3a1d10",
+      );
+    } else if (lm.section === "skills" && nearSection === "skills") {
+      drawSpinningGear(ctx, px + w * 0.5, py - 8, t);
+    } else if (lm.section === "journey" && nearSection === "journey") {
+      drawSwingingCompass(ctx, px + w * 0.5, py - 8, t);
+    } else if (lm.section === "about" && nearSection === "about") {
+      drawSpeechBubble(ctx, px + w * 0.5, py + 10, t);
+    } else if (lm.section === "contact" && nearSection === "contact") {
+      drawBobbingEnvelope(ctx, px + w * 0.5, py - 10, t);
+    }
   }
 }
 
@@ -275,6 +476,7 @@ export function drawPlayer(
   facing: "up" | "down" | "left" | "right",
   walking: boolean,
   t: number,
+  nearSection: SectionKey | null = null,
 ) {
   const bob = walking ? Math.sin(t * 12) * 1.5 : 0;
   const cx = px;
@@ -311,4 +513,33 @@ export function drawPlayer(
   } else if (facing === "right") {
     ctx.fillRect(cx + 2.5, cy - 6, 1.5, 1.5);
   }
+
+  // A pair of glasses appears while standing near the Projects door, with
+  // a little glint of light sweeping across the lenses every so often.
+  if (nearSection === "projects") {
+    ctx.strokeStyle = "#2a2a2a";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.roundRect(cx - 6.5, cy - 8.5, 4.5, 4, 1);
+    ctx.roundRect(cx + 2, cy - 8.5, 4.5, 4, 1);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(cx - 2, cy - 6.5);
+    ctx.lineTo(cx + 2, cy - 6.5);
+    ctx.stroke();
+
+    const glintCycle = 1.6;
+    const gp = (t % glintCycle) / glintCycle;
+    if (gp < 0.4) {
+      const sweep = gp / 0.4; // 0..1 across the sweep window
+      const sx = cx - 6 + sweep * 13;
+      ctx.strokeStyle = `rgba(255,255,255,${0.9 * Math.sin(sweep * Math.PI)})`;
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(sx - 1.3, cy - 9.3);
+      ctx.lineTo(sx + 1.3, cy - 6.7);
+      ctx.stroke();
+    }
+  }
+
 }

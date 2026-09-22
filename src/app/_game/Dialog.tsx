@@ -500,30 +500,39 @@ function PhotoTile({ photo: p }: { photo: (typeof PHOTOS)[number] }) {
   return (
     <figure className="overflow-hidden border-2 border-ink">
       {p.video ? (
-        <video
-          src={p.video}
-          poster={p.src}
-          controls
-          playsInline
-          muted
-          loop
-          preload="none"
-          className="h-32 w-full object-cover"
-          style={p.focus ? { objectPosition: p.focus } : undefined}
-        />
+        <div className="h-32 w-full overflow-hidden">
+          <video
+            src={p.video}
+            poster={p.src}
+            controls
+            playsInline
+            muted
+            loop
+            preload="none"
+            className="h-32 w-full object-cover"
+            style={{
+              objectPosition: p.focus,
+              transform: p.zoom ? `scale(${p.zoom})` : undefined,
+            }}
+          />
+        </div>
       ) : (
         <a
           href={p.src}
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`Open full-size photo: ${p.alt}`}
+          className="block h-32 w-full overflow-hidden"
         >
           <img
             src={p.src}
             alt={p.alt}
             loading="lazy"
             className="h-32 w-full object-cover"
-            style={p.focus ? { objectPosition: p.focus } : undefined}
+            style={{
+              objectPosition: p.focus,
+              transform: p.zoom ? `scale(${p.zoom})` : undefined,
+            }}
           />
         </a>
       )}

@@ -345,6 +345,10 @@ export type Photo = {
   // CSS object-position, override the default "center" when the subject
   // sits above (or below) the middle of the frame.
   focus?: string;
+  // Zoom in on the frame. 1 = no zoom (default); 1.3 = 30% closer in.
+  // Crops in around whatever `focus` is pointing at, so set focus first,
+  // then add zoom if the subject is still too small/far away.
+  zoom?: number;
   // Present for a video item: src above is the poster/thumbnail image,
   // video is the clip itself (muted, looped, plays on tap).
   video?: string;
@@ -388,20 +392,21 @@ export const PHOTOS: Photo[] = [
   { src: "/photos/travel/aquarium-whale-shark-2.jpg", hobby: "Travel", alt: "Silhouette of Ritika watching a whale shark at an aquarium", caption: "Whale shark, Okinawa aquarium" },
   { src: "/photos/travel/okinawa-beach.jpg", hobby: "Travel", alt: "Ritika jumping on a beach with a bridge in the background", caption: "Okinawa" },
   { src: "/photos/activities/casino-night.jpg", hobby: "Activities", alt: "Poker chips and cards on a casino table", caption: "Casino night" },
-  { src: "/photos/activities/adventure-park-1.jpg", hobby: "Activities", alt: "Ritika scuba diving, kneeling on a coral reef", caption: "Scuba diving" },
-  { src: "/photos/activities/adventure-park-2.jpg", hobby: "Activities", alt: "Close-up of Ritika snorkeling underwater with a dive mask", caption: "Snorkeling" },
+  { src: "/photos/activities/adventure-park-1.jpg", hobby: "Activities", alt: "Ritika scuba diving, kneeling on a coral reef", caption: "Scuba diving", focus: "center 20%" },
+  { src: "/photos/activities/adventure-park-2.jpg", hobby: "Activities", alt: "Close-up of Ritika snorkeling underwater with a dive mask", caption: "First Dive" },
   {
     src: "/photos/activities/bouldering-poster.jpg",
     hobby: "Activities",
     alt: "Ritika bouldering on a climbing wall",
     caption: "Bouldering",
+    focus: "center 20%",
     video: "/photos/activities/bouldering.mp4",
   },
   {
     src: "/photos/activities/adventure-clip-poster.jpg",
     hobby: "Activities",
     alt: "A gravity go-kart running down a race track",
-    caption: "Go-kart racing",
+    caption: "Go-kart",
     video: "/photos/activities/adventure-clip.mp4",
   },
   {
@@ -410,6 +415,7 @@ export const PHOTOS: Photo[] = [
     alt: "Ritika trying AR glasses in an office",
     caption: "Trying AR glasses",
     video: "/photos/activities/meta-glasses.mp4",
+    focus: "center 20%"
   },
 
   // ---- Travel ----
@@ -428,12 +434,12 @@ export const PHOTOS: Photo[] = [
 
   // ---- Basketball ----
   { src: "/photos/basketball/team-photo.jpg", hobby: "Basketball", alt: "Ritika and three teammates in green basketball jerseys on a rooftop court", caption: "School basketball team" },
-  { src: "/photos/basketball/court-side.jpg", hobby: "Basketball", alt: "Ritika with an arm around a teammate, back turned to the camera", caption: "Friends off the court" },
+  { src: "/photos/basketball/court-side.jpg", hobby: "Basketball", alt: "Ritika with an arm around a teammate, back turned to the camera", caption: "Friends off the court", focus: "center 30%" },
 
   // ---- Biking ----
-  { src: "/photos/biking/motorcycle.jpg", hobby: "Biking", alt: "Ritika on a motorcycle wearing a helmet", caption: "Motorcycle ride" },
-  { src: "/photos/biking/atv-ride.jpg", hobby: "Biking", alt: "Ritika riding an ATV in off-road gear", caption: "ATV off-roading" },
-  { src: "/photos/biking/royal-enfield.jpg", hobby: "Biking", alt: "Ritika on a Royal Enfield motorcycle on a mountain road", caption: "Royal Enfield tour" },
+  { src: "/photos/biking/motorcycle.jpg", hobby: "Biking", alt: "Ritika on a motorcycle wearing a helmet", caption: "Motorcycle ride", focus: "center 20%" },
+  { src: "/photos/biking/atv-ride.jpg", hobby: "Biking", alt: "Ritika riding an ATV in off-road gear", caption: "ATV off-roading", focus: "center 20%" },
+  { src: "/photos/biking/royal-enfield.jpg", hobby: "Biking", alt: "Ritika on a Royal Enfield motorcycle on a mountain road", caption: "Royal Enfield tour",focus: "center0%", zoom: 1.5 },
 
   // ---- Horse riding ----
   { src: "/photos/horse-riding/arena.jpg", hobby: "Horse riding", alt: "Ritika riding a horse over a jump in an arena", caption: "Show-jumping practice" },

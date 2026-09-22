@@ -229,7 +229,7 @@ export function GameCanvas() {
       ctx.fillStyle = "#2e2418";
       ctx.fillRect(0, 0, cw, ch);
       drawGround(ctx, now / 1000, viewX, viewY, cw, ch);
-      drawLandmarks(ctx, viewX, viewY);
+      drawLandmarks(ctx, viewX, viewY, now / 1000, nearSectionRef.current);
       drawPlayer(
         ctx,
         p.x - viewX,
@@ -237,6 +237,7 @@ export function GameCanvas() {
         p.facing,
         p.walking,
         now / 1000,
+        nearSectionRef.current,
       );
 
       raf = requestAnimationFrame(step);
