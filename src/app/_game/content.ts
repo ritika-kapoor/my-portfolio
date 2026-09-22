@@ -85,7 +85,7 @@ export const TIMELINE: TimelineEntry[] = [
     title: "Full Stack Web Developer",
     place: "IBJ Inc., Tokyo, Japan",
     detail:
-      "Direct placement out of college. Turns requirements into flow diagrams and UI wireframes (Cacoo, Figma) so the team agrees on what to build before development starts. Then builds and updates features across Rails, Laravel, Svelte, React/Next.js, PHP, and WordPress, all learned on the job. Won the 2025 company-wide hackathon with a multidisciplinary team.",
+      "Direct placement out of college. Turns requirements into flow diagrams and UI wireframes (Cacoo, Figma) so the team agrees on what to build before development starts. Then builds and updates features across Rails, Laravel, Svelte, React/Next.js, PHP, and WordPress, all learned on the job. Won the 2024 company-wide hackathon with a multidisciplinary team.",
   },
 ];
 
@@ -129,7 +129,7 @@ export type Project = {
 export const PROJECTS: Project[] = [
   {
     category: "work",
-    title: "2025 Company Hackathon: 1st place",
+    title: "2024 Company Hackathon: 1st place",
     blurb:
       "Built a full-stack digital invitation platform with a cross-discipline team (Team Lakers) and won the company-wide hackathon. Details below.",
     tech: ["Svelte", "Rust", "Flutter", "AWS", "Terraform", "Figma"],
@@ -187,7 +187,7 @@ export const PROJECTS: Project[] = [
 
 export const HACKATHON = {
   title: "Team Lakers: digital wedding invitation platform",
-  subtitle: "2025 company-wide hackathon · 1st place",
+  subtitle: "2024 company-wide hackathon · 1st place",
   sections: [
     {
       label: "What it was",
@@ -221,13 +221,29 @@ export const HACKATHON = {
       body: "Svelte compiles work ahead of time and skips the virtual DOM, so the invitation page stayed light. In the team's benchmark it loaded about 3x faster than the Google top page. On the backend, Rust broke more between versions than Go did and the Go server benchmarked faster, so the team concluded Rust is not the best fit for web APIs even though it still shines for low-level work.",
     },
   ] as { label: string; body?: string; items?: string[] }[],
-  image: {
-    src: "/hackathon/aws-architecture.png",
-    alt: "AWS architecture diagram: GitHub and HCP Terraform provision a VPC with a load balancer, app servers and database, plus CloudFront, Lambda and S3 for image optimization.",
-    caption: "Infrastructure diagram: Terraform-managed AWS setup",
-    width: 1331,
-    height: 964,
-  },
+  images: [
+    {
+      src: "/hackathon/award-announcement.jpg",
+      alt: "Team Lakers on stage as the IBJ Hackathon 2024 1st-place team is announced",
+      caption: "1st place announcement",
+      width: 1600,
+      height: 1200,
+    },
+    {
+      src: "/hackathon/team-with-mentors.jpg",
+      alt: "Ritika presenting with two teammates during the hackathon",
+      caption: "Presenting to the room",
+      width: 1600,
+      height: 1200,
+    },
+    {
+      src: "/hackathon/aws-architecture.png",
+      alt: "AWS architecture diagram: GitHub and HCP Terraform provision a VPC with a load balancer, app servers and database, plus CloudFront, Lambda and S3 for image optimization.",
+      caption: "Infrastructure diagram: Terraform-managed AWS setup",
+      width: 1331,
+      height: 964,
+    },
+  ],
   tech: [
     "Svelte",
     "Rust",
@@ -244,7 +260,7 @@ export type Highlight = { year: string; text: string };
 
 export const HIGHLIGHTS: Highlight[] = [
   { year: "2026", text: "☑️ AWS Certified Solutions Architect – Associate" },
-  { year: "2025", text: "🏆 Winner: Company-wide hackathon (IBJ Inc.)" },
+  { year: "2024", text: "🏆 Winner: Company-wide hackathon (IBJ Inc.)" },
   { year: "2024–25", text: "Taught English at community camps in Japan" },
   { year: "2023–present", text: "Co-organizer: Community Meetups for Indians in Tokyo" },
   { year: "2023", text: "Event Coordinator: Japan Day (NHCE × Zenken)" },
@@ -401,4 +417,39 @@ export const PHOTOS: Photo[] = [
   { src: "/photos/volunteering/kids-classroom.jpg", hobby: "Volunteering", alt: "Ritika teaching younger children seated on the floor", caption: "Teaching younger kids" },
   { src: "/photos/volunteering/campus-drive.jpg", hobby: "Volunteering", alt: "Ritika and friends with painted faces during a campus awareness drive", caption: "Campus awareness drive" },
   { src: "/photos/volunteering/rural-school-visit.jpg", hobby: "Volunteering", alt: "Ritika sitting at a desk in a rural schoolhouse", caption: "Rural school visit" },
+];
+
+// A shelf of what a hobby is about, shown as small cover-art thumbnails
+// rather than personal photos: these are official book covers / anime key
+// art, not Ritika's own photography, so they're kept visually distinct from
+// the PHOTOS galleries above (smaller, labeled by title, credited as cover
+// art) instead of mixed in as if she took them.
+export type Cover = { hobby: string; src: string; title: string };
+
+export const COVERS: Cover[] = [
+  // ---- Reading ----
+  { hobby: "Reading", src: "/covers/harry-potter.jpg", title: "Harry Potter" },
+  { hobby: "Reading", src: "/covers/the-hunger-games-book.jpg", title: "The Hunger Games" },
+  { hobby: "Reading", src: "/covers/twilight-book.jpg", title: "Twilight" },
+  { hobby: "Reading", src: "/covers/divergent-series.jpg", title: "Divergent" },
+  { hobby: "Reading", src: "/covers/the-fault-in-our-stars-book.jpg", title: "The Fault in Our Stars" },
+  { hobby: "Reading", src: "/covers/looking-for-alaska-book.jpg", title: "Looking for Alaska" },
+  { hobby: "Reading", src: "/covers/the-perks-of-being-a-wallflower-book.jpg", title: "The Perks of Being a Wallflower" },
+  { hobby: "Reading", src: "/covers/kite-runner-book.jpg", title: "The Kite Runner" },
+  { hobby: "Reading", src: "/covers/life-of-pi-book.jpg", title: "Life of Pi" },
+  { hobby: "Reading", src: "/covers/angels-and-demons-by-dan-brown.jpg", title: "Angels & Demons" },
+  { hobby: "Reading", src: "/covers/ikigai-book.jpg", title: "Ikigai" },
+  { hobby: "Reading", src: "/covers/the-immortals-of-meluha-book.jpg", title: "The Immortals of Meluha" },
+  { hobby: "Reading", src: "/covers/mahashweta-by-sudha-murty.jpg", title: "Mahashweta" },
+  { hobby: "Reading", src: "/covers/chetan-bahagt-two-states.jpg", title: "2 States" },
+  { hobby: "Reading", src: "/covers/ronald-dahlbooks.jpg", title: "Roald Dahl" },
+  { hobby: "Reading", src: "/covers/sidney-sheldon.jpg", title: "Sidney Sheldon" },
+  // ---- Anime & K-drama ----
+  { hobby: "Anime & K-drama", src: "/covers/demon-slayer.jpg", title: "Demon Slayer" },
+  { hobby: "Anime & K-drama", src: "/covers/hunterxhunter.jpg", title: "Hunter x Hunter" },
+  { hobby: "Anime & K-drama", src: "/covers/fullmetal-alchemist.jpg", title: "Fullmetal Alchemist" },
+  { hobby: "Anime & K-drama", src: "/covers/haikyuu-anime.jpg", title: "Haikyu!!" },
+  { hobby: "Anime & K-drama", src: "/covers/solo-leveling.jpg", title: "Solo Leveling" },
+  { hobby: "Anime & K-drama", src: "/covers/kuroko-no-basket.jpg", title: "Kuroko's Basketball" },
+  { hobby: "Anime & K-drama", src: "/covers/your-name-anime.jpg", title: "Your Name" },
 ];

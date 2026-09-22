@@ -159,26 +159,30 @@ export default function ResumePage() {
         <Section title="Hackathon: 1st place">
           <h3 className="panel-title text-xl">{HACKATHON.title}</h3>
           <div className="mb-3 text-sm opacity-70">{HACKATHON.subtitle}</div>
-          <figure className="mb-4 overflow-hidden border-2 border-ink bg-white">
-            <a
-              href={HACKATHON.image.src}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Open the full-size diagram in a new tab"
-            >
-              <Image
-                src={HACKATHON.image.src}
-                alt={HACKATHON.image.alt}
-                width={HACKATHON.image.width}
-                height={HACKATHON.image.height}
-                sizes="(min-width: 768px) 700px, 100vw"
-                className="h-auto w-full"
-              />
-            </a>
-            <figcaption className="border-t-2 border-ink bg-sky px-2 py-1 text-xs">
-              {HACKATHON.image.caption} · click to enlarge
-            </figcaption>
-          </figure>
+          <div className="mb-4 grid grid-cols-1 gap-2 sm:grid-cols-3">
+            {HACKATHON.images.map((img) => (
+              <figure key={img.src} className="overflow-hidden border-2 border-ink bg-white">
+                <a
+                  href={img.src}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Open full-size: ${img.alt}`}
+                >
+                  <Image
+                    src={img.src}
+                    alt={img.alt}
+                    width={img.width}
+                    height={img.height}
+                    sizes="(min-width: 768px) 230px, 100vw"
+                    className="h-40 w-full object-cover sm:h-28"
+                  />
+                </a>
+                <figcaption className="border-t-2 border-ink bg-sky px-2 py-1 text-xs">
+                  {img.caption}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
           <div className="space-y-4">
             {HACKATHON.sections.map((sec) => (
               <div key={sec.label}>

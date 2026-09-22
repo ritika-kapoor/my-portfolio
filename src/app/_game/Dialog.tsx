@@ -8,6 +8,7 @@ import { SECTION_TITLE } from "./world";
 import {
   ABOUT,
   CLUBS,
+  COVERS,
   HACKATHON,
   HIGHLIGHTS,
   HOBBIES,
@@ -253,26 +254,31 @@ function HackathonDetail() {
           <h3 className="panel-title text-xl">{HACKATHON.title}</h3>
           <div className="text-xs opacity-70">{HACKATHON.subtitle}</div>
         </div>
-        <figure className="overflow-hidden border-2 border-ink bg-white">
-          <a
-            href={HACKATHON.image.src}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Open the full-size diagram in a new tab"
-          >
-            <Image
-              src={HACKATHON.image.src}
-              alt={HACKATHON.image.alt}
-              width={HACKATHON.image.width}
-              height={HACKATHON.image.height}
-              sizes="(min-width: 768px) 700px, 100vw"
-              className="h-auto w-full"
-            />
-          </a>
-          <figcaption className="border-t-2 border-ink bg-sky px-2 py-1 text-xs">
-            {HACKATHON.image.caption} · tap to enlarge
-          </figcaption>
-        </figure>
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+          {HACKATHON.images.map((img) => (
+            <figure key={img.src} className="overflow-hidden border-2 border-ink bg-white">
+              <a
+                href={img.src}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Open full-size: ${img.alt}`}
+              >
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  width={img.width}
+                  height={img.height}
+                  sizes="(min-width: 768px) 230px, 100vw"
+                  className="h-40 w-full object-cover sm:h-28"
+                />
+              </a>
+              <figcaption className="border-t-2 border-ink bg-sky px-2 py-1 text-xs">
+                {img.caption}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+        <p className="text-xs opacity-60">Tap a photo to open it full size.</p>
         {HACKATHON.sections.map((sec) => (
           <div key={sec.label}>
             <div className="panel-title text-sm">{sec.label}</div>
@@ -354,12 +360,14 @@ const GALLERY_PAGE_SIZE = 9;
 
 function HobbiesContent() {
   const galleryFor = (hobby: string) => PHOTOS.filter((p) => p.hobby === hobby);
+  const coversFor = (hobby: string) => COVERS.filter((c) => c.hobby === hobby);
   const [active, setActive] = useState<string>(
-    HOBBIES.find((h) => galleryFor(h).length > 0) ?? "",
+    HOBBIES.find((h) => galleryFor(h).length > 0 || coversFor(h).length > 0) ?? "",
   );
   const [showAll, setShowAll] = useState(false);
   const allPhotos = active ? galleryFor(active) : [];
   const photos = showAll ? allPhotos : allPhotos.slice(0, GALLERY_PAGE_SIZE);
+  const covers = active ? coversFor(active) : [];
 
   return (
     <div className="space-y-6">
@@ -367,7 +375,7 @@ function HobbiesContent() {
         <SubHeading>Off-screen</SubHeading>
         <div className="flex flex-wrap gap-1">
           {HOBBIES.map((h) => {
-            const count = galleryFor(h).length;
+            const count = galleryFor(h).length + coversFor(h).length;
             if (count === 0) {
               return (
                 <span key={h} className="pill">
@@ -416,6 +424,31 @@ function HobbiesContent() {
               {showAll ? "Show fewer" : `View all ${allPhotos.length}`}
             </button>
           )}
+        </div>
+      )}
+
+      {covers.length > 0 && (
+        <div>
+          <SubHeading>{active} : what I&apos;m into</SubHeading>
+          <p className="mb-2 text-xs opacity-70">
+            Cover art, not my own photos, just here to show what I&apos;m reading
+            or watching.
+          </p>
+          <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
+            {covers.map((c) => (
+              <figure key={c.src} className="overflow-hidden border-2 border-ink">
+                <img
+                  src={c.src}
+                  alt={`${c.title} cover art`}
+                  loading="lazy"
+                  className="aspect-[2/3] w-full object-cover"
+                />
+                <figcaption className="border-t-2 border-ink bg-sky px-1 py-0.5 text-center text-[0.65rem] leading-tight">
+                  {c.title}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
       )}
     </div>
