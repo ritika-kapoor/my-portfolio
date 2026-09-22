@@ -128,7 +128,8 @@ export type Project = {
   repo?: string;
   category: "work" | "college";
   // Optional photos of the actual build/event, shown as small tiles on the card.
-  images?: { src: string; alt: string }[];
+  // A tile with `video` set plays that clip; `src` is then its poster frame.
+  images?: { src: string; alt: string; video?: string }[];
 };
 
 export const PROJECTS: Project[] = [
@@ -168,7 +169,7 @@ export const PROJECTS: Project[] = [
     category: "college",
     title: "Autonomous Obstacle-Avoiding Bot",
     blurb:
-      "Ultrasonic-sensor bot that navigates forward while dodging obstacles. Built with Arduino Uno + motor driver, simulated in Tinkercad. Also finished 2nd at the STEMX robotics workshop competition.",
+      "Ultrasonic-sensor bot that navigates forward while dodging obstacles. Built with Arduino Uno + motor driver, simulated in Tinkercad.",
     tech: ["Arduino Uno", "Ultrasonic", "Tinkercad"],
     images: [
       { src: "/projects/obstacle-bot-build.jpg", alt: "Ritika wiring the ultrasonic sensor and Arduino Uno onto the bot's chassis" },
@@ -197,6 +198,37 @@ export const PROJECTS: Project[] = [
     blurb:
       "End-to-end ML workflow: data exploration → model selection → training → forecasting regional power demand from a public dataset.",
     tech: ["Python", "ML", "Regression"],
+  },
+  {
+    category: "college",
+    title: "STEMX Robotics Workshop: 2nd place",
+    blurb:
+      "Team build-and-compete workshop: assembled and programmed a Lego Mindstorms robot against the clock with a small team, placing 2nd overall.",
+    tech: ["Lego Mindstorms", "Teamwork", "Robotics"],
+    images: [
+      { src: "/projects/stemx.jpg", alt: "Ritika and a teammate assembling a Lego Mindstorms robot at the STEMX workshop" },
+    ],
+  },
+  {
+    category: "college",
+    title: "Robotics & Automation Elective: Pick-and-Place",
+    blurb:
+      "Coursework from the Robotics & Automation elective: programmed a robot arm to pick up and place small parts, an early hands-on introduction to industrial robot control.",
+    tech: ["Robotics", "Automation", "Programming"],
+    images: [
+      { src: "/projects/pick-and-place-poster.jpg", alt: "A small robot arm picking up parts during a Robotics & Automation class exercise", video: "/projects/pick-and-place.mp4" },
+    ],
+  },
+  {
+    category: "college",
+    title: "Industrial Visit: FANUC Robotics",
+    blurb:
+      "College industrial visit to FANUC, seeing an industrial robot arm up close and interacting with it in operation, hands-on exposure to industrial automation alongside the BEL and HAL internships.",
+    tech: ["Industrial robotics", "FANUC"],
+    images: [
+      { src: "/projects/fanuc.jpg", alt: "Ritika and a classmate interacting with a FANUC industrial robot arm" },
+      { src: "/projects/fanuc-visit-poster.jpg", alt: "Video of the FANUC robot arm in operation during the visit", video: "/projects/fanuc-visit.mp4" },
+    ],
   },
 ];
 
