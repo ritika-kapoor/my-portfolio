@@ -96,6 +96,11 @@ function AboutContent() {
             <p key={i}>{line}</p>
           ))}
         </div>
+        <img
+          src={PROFILE.aboutPhoto}
+          alt={`${PROFILE.name} jumping joyfully on campus`}
+          className="h-40 w-32 flex-none self-center rounded-md border-2 border-ink object-cover shadow-pixel-sm sm:self-start"
+        />
       </div>
 
       <div>
@@ -338,6 +343,28 @@ function ProjectCard({ p }: { p: (typeof PROJECTS)[number] }) {
         </div>
       </div>
       <p className="mb-2 text-sm leading-relaxed">{p.blurb}</p>
+      {p.images && p.images.length > 0 && (
+        <div className="mb-2 flex gap-2">
+          {p.images.map((img) => (
+            <a
+              key={img.src}
+              href={img.src}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-20 flex-none overflow-hidden border-2 border-ink sm:w-24"
+              aria-label={`Open full-size: ${img.alt}`}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={img.src}
+                alt={img.alt}
+                loading="lazy"
+                className="h-16 w-full object-cover sm:h-20"
+              />
+            </a>
+          ))}
+        </div>
+      )}
       <div className="flex flex-wrap gap-1">
         {p.tech.map((t) => (
           <span key={t} className="pill">

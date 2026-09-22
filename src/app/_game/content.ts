@@ -10,6 +10,9 @@ export const PROFILE = {
   linkedin: "https://www.linkedin.com/in/ritika-kapoor-71b757210",
   instagram: "https://www.instagram.com/awesome_mysteriously",
   portrait: "/photos/portrait.jpg",
+  // A second, livelier photo shown only in the About panel (not the small
+  // avatar slots, since her face is mostly hidden by hair/arm mid-jump).
+  aboutPhoto: "/photos/about-jump.jpg",
 };
 
 export const ABOUT = {
@@ -124,6 +127,8 @@ export type Project = {
   href?: string;
   repo?: string;
   category: "work" | "college";
+  // Optional photos of the actual build/event, shown as small tiles on the card.
+  images?: { src: string; alt: string }[];
 };
 
 export const PROJECTS: Project[] = [
@@ -145,8 +150,12 @@ export const PROJECTS: Project[] = [
     category: "college",
     title: "Arduino Cansat: IoT Weather Station",
     blurb:
-      "Rocket-launched soda-can weather station. BMP + DHT sensors transmitted temperature, pressure, and humidity every 2 seconds to a ground receiver over Arduino radio; parachute-controlled free-fall from 100 m.",
+      "Rocket-launched soda-can weather station, built with the college Rocket Club. BMP + DHT sensors transmitted temperature, pressure, and humidity every 2 seconds to a ground receiver over Arduino radio; parachute-controlled free-fall from 100 m.",
     tech: ["Arduino", "Proteus", "IoT sensors"],
+    images: [
+      { src: "/projects/rocket-club.jpg", alt: "The model rocket on its launch stand, moments before launch" },
+      { src: "/projects/cansat-receiver.jpg", alt: "The Arduino ground-receiver rig, picking up telemetry from the can" },
+    ],
   },
   {
     category: "college",
@@ -161,6 +170,9 @@ export const PROJECTS: Project[] = [
     blurb:
       "Ultrasonic-sensor bot that navigates forward while dodging obstacles. Built with Arduino Uno + motor driver, simulated in Tinkercad. Also finished 2nd at the STEMX robotics workshop competition.",
     tech: ["Arduino Uno", "Ultrasonic", "Tinkercad"],
+    images: [
+      { src: "/projects/obstacle-bot-build.jpg", alt: "Ritika wiring the ultrasonic sensor and Arduino Uno onto the bot's chassis" },
+    ],
   },
   {
     category: "college",
@@ -168,6 +180,9 @@ export const PROJECTS: Project[] = [
     blurb:
       "Breadboard circuit using capacitors, resistors, diodes, transistors and a transformer that trips a buzzer alarm when temperature crosses a threshold.",
     tech: ["Analog", "Sensors", "Buzzer"],
+    images: [
+      { src: "/projects/alarm.jpg", alt: "The finished breadboard circuit with buzzer, transformer and status LEDs" },
+    ],
   },
   {
     category: "college",
