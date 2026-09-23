@@ -228,6 +228,7 @@ function SkillsContent() {
 
 function ProjectsContent() {
   const work = PROJECTS.filter((p) => p.category === "work");
+  const personal = PROJECTS.filter((p) => p.category === "personal");
   const college = PROJECTS.filter((p) => p.category === "college");
   return (
     <div className="space-y-6">
@@ -240,6 +241,14 @@ function ProjectsContent() {
         </div>
       </div>
       <HackathonDetail />
+      <div>
+        <SubHeading>Personal · side projects</SubHeading>
+        <div className="space-y-3">
+          {personal.map((p) => (
+            <ProjectCard key={p.title} p={p} />
+          ))}
+        </div>
+      </div>
       <div>
         <SubHeading>College · hardware & tinkering</SubHeading>
         <div className="space-y-3">

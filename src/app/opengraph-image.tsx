@@ -11,7 +11,7 @@ const INK = "#3a2a1a";
 const PARCHMENT = "#f7e9d0";
 const FIREFLY = "#ffd166";
 
-const SKILLS = ["Rails", "React / Next.js", "Svelte", "AWS"];
+const SKILLS = ["Rails", "React / Next.js", "Laravel", "AWS"];
 
 export default async function OpengraphImage() {
   const portrait = await readFile(

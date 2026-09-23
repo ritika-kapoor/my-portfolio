@@ -18,7 +18,7 @@ const body = Nunito({
 });
 
 const TITLE = `${PROFILE.name} | Playable Portfolio`;
-const DESCRIPTION = `${PROFILE.role} in Tokyo (Rails, React/Next.js, Svelte, AWS). Walk around a small island to explore my work, or read the plain version.`;
+const DESCRIPTION = `${PROFILE.role} in Tokyo (Rails, React/Next.js, Laravel, AWS). Walk around a small island to explore my work, or read the plain version.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

@@ -66,6 +66,7 @@ function Level({ level }: { level: number }) {
 
 export default function ResumePage() {
   const work = PROJECTS.filter((p) => p.category === "work");
+  const personal = PROJECTS.filter((p) => p.category === "personal");
   const college = PROJECTS.filter((p) => p.category === "college");
   // Timeline is stored oldest first; a resume leads with the latest.
   const experience = [...TIMELINE].reverse();
@@ -228,6 +229,10 @@ export default function ResumePage() {
           <ProjectList projects={work} />
         </Section>
 
+        <Section title="Personal projects">
+          <ProjectList projects={personal} />
+        </Section>
+
         <Section title="College projects">
           <ProjectList projects={college} />
         </Section>
@@ -293,7 +298,22 @@ function ProjectList({ projects }: { projects: (typeof PROJECTS)[number][] }) {
     <ul className="space-y-4">
       {projects.map((p) => (
         <li key={p.title}>
-          <h3 className="panel-title text-xl">{p.title}</h3>
+          <h3 className="panel-title text-xl">
+            {p.title}
+            {p.href && (
+              <>
+                {" "}
+                <a
+                  href={p.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm underline"
+                >
+                  live ↗
+                </a>
+              </>
+            )}
+          </h3>
           <p className="text-sm">{p.blurb}</p>
           <p className="mt-1 flex flex-wrap gap-1">
             {p.tech.map((t) => (

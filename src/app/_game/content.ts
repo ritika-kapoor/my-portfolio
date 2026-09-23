@@ -96,8 +96,7 @@ export type Skill = { name: string; level: 1 | 2 | 3 | 4 };
 
 export const SKILLS = {
   tech: [
-    { name: "Ruby", level: 2 },
-    { name: "Rails", level: 2 },
+    { name: "Ruby on Rails", level: 2 },
     { name: "SQL / PostgreSQL", level: 2 },
     { name: "JavaScript", level: 2 },
     { name: "React / Next.js", level: 2 },
@@ -107,7 +106,7 @@ export const SKILLS = {
     { name: "WordPress", level: 2 },
     { name: "AWS", level: 2 },
     { name: "Docker", level: 1 },
-    { name: "Git", level: 2 },
+    { name: "Git", level: 1 },
     { name: "Figma", level: 2 },
     { name: "Python (ML basics)", level: 1 },
     { name: "Proteus", level: 2 },
@@ -126,7 +125,7 @@ export type Project = {
   tech: string[];
   href?: string;
   repo?: string;
-  category: "work" | "college";
+  category: "work" | "personal" | "college";
   // Optional photos of the actual build/event, shown as small tiles on the card.
   // A tile with `video` set plays that clip; `src` is then its poster frame.
   images?: { src: string; alt: string; video?: string }[];
@@ -142,10 +141,21 @@ export const PROJECTS: Project[] = [
   },
   {
     category: "work",
-    title: "In-house product features (Rails / Laravel / Svelte)",
+    title: "In-house product features (Rails / Laravel / React)",
     blurb:
       "Requirements mapped out as flow diagrams and wireframes first, then built into ongoing features and updates for internal Japanese-market products. Learned each framework's codebase along the way, working within tight documentation and review cycles.",
-    tech: ["Rails", "Laravel", "Svelte", "PHP", "WordPress"],
+    tech: ["Rails", "Laravel", "React", "WordPress"],
+  },
+  {
+    category: "personal",
+    title: "Quest of Life: pixel-RPG habit tracker (in progress)",
+    blurb:
+      "A habit tracker disguised as a pixel-RPG: real habits and to-dos become quests that level up a character, build streaks and fight a daily boss. Building it to learn three things at once: web-game mechanics (map navigation, XP/leveling, boss battles), working with pixel-art game and design asset packs, and AWS infrastructure (Lambda + API Gateway + DynamoDB) for the backend, plus a Gemini-powered AI narrator and guide.",
+    tech: ["React", "TypeScript", "Vite", "AWS Lambda", "DynamoDB", "Gemini AI"],
+    href: "https://quest-of-life.vercel.app",
+    images: [
+      { src: "/projects/quest-of-life-map.jpg", alt: "The pixel-art overworld map of Quest of Life, showing buildings for Quests, Guild, Notes and the AI Guide" },
+    ],
   },
   {
     category: "college",
