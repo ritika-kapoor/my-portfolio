@@ -16,6 +16,7 @@ import { drawGround, drawLandmarks, drawPlayer } from "./render";
 import { Dialog } from "./Dialog";
 import { Hud } from "./Hud";
 import { TouchControls } from "./TouchControls";
+import { useLanguage } from "./LanguageContext";
 
 const PLAYER_SPEED = 130; // pixels per second
 const PLAYER_RADIUS = 8;
@@ -42,12 +43,14 @@ export function GameCanvas() {
   const [openSection, setOpenSection] = useState<SectionKey | null>(null);
   const [nearSection, setNearSection] = useState<SectionKey | null>(null);
   const [showIntro, setShowIntro] = useState(true);
+  const { lang } = useLanguage();
 
   // Mirror state into refs so the animation loop can read fresh values
   // without needing to restart every time a state changes.
   const openSectionRef = useRef(openSection);
   const showIntroRef = useRef(showIntro);
   const nearSectionRef = useRef(nearSection);
+  const langRef = useRef(lang);
   useEffect(() => {
     openSectionRef.current = openSection;
   }, [openSection]);
@@ -57,6 +60,9 @@ export function GameCanvas() {
   useEffect(() => {
     nearSectionRef.current = nearSection;
   }, [nearSection]);
+  useEffect(() => {
+    langRef.current = lang;
+  }, [lang]);
 
   const tryInteract = useCallback(() => {
     const p = playerRef.current;
@@ -229,7 +235,14 @@ export function GameCanvas() {
       ctx.fillStyle = "#2e2418";
       ctx.fillRect(0, 0, cw, ch);
       drawGround(ctx, now / 1000, viewX, viewY, cw, ch);
-      drawLandmarks(ctx, viewX, viewY, now / 1000, nearSectionRef.current);
+      drawLandmarks(
+        ctx,
+        viewX,
+        viewY,
+        now / 1000,
+        nearSectionRef.current,
+        langRef.current,
+      );
       drawPlayer(
         ctx,
         p.x - viewX,

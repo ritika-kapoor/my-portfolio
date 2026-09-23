@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { VT323, Nunito } from "next/font/google";
+import { VT323, Nunito, DotGothic16 } from "next/font/google";
 import "./globals.css";
 import { PROFILE } from "./_game/content";
 import { SITE_URL } from "./siteUrl";
@@ -8,6 +8,17 @@ const display = VT323({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-display",
+  display: "swap",
+});
+
+// A dot-matrix / pixel-style Japanese font, used wherever the site's
+// pixel labels (house signs, quick-jump buttons) switch to Japanese —
+// VT323 above has no Japanese glyphs, so Japanese text in it would
+// silently fall back to a plain system font and break the pixel look.
+const displayJa = DotGothic16({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-display-ja",
   display: "swap",
 });
 
@@ -70,7 +81,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${display.variable} ${body.variable} no-select`}>
+      <body
+        className={`${display.variable} ${displayJa.variable} ${body.variable} no-select`}
+      >
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}

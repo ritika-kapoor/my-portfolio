@@ -7,6 +7,7 @@ import {
   SECTION_SIGN,
   type SectionKey,
 } from "./world";
+import { JA_SECTION_SIGN } from "./translations";
 
 const COLORS = {
   grass: ["#a8c96d", "#7fae4e"],
@@ -370,6 +371,7 @@ export function drawLandmarks(
   viewY: number,
   t: number,
   nearSection: SectionKey | null,
+  lang: "en" | "ja" = "en",
 ) {
   for (const lm of LANDMARKS) {
     const px = lm.tx * TILE_SIZE - viewX;
@@ -423,12 +425,17 @@ export function drawLandmarks(
       ctx.fillRect(wx, winY + winH * 0.5 - 1, winW, 2);
     });
 
-    // sign hanging under roof line — pulls its label from SECTION_SIGN
-    const label = SECTION_SIGN[lm.section];
-    ctx.font = 'bold 12px var(--font-display), monospace';
+    // sign hanging under roof line — pulls its label from SECTION_SIGN,
+    // or JA_SECTION_SIGN in a Japanese pixel font when lang is "ja"
+    // (VT323 has no Japanese glyphs).
+    const label = lang === "ja" ? JA_SECTION_SIGN[lm.section] : SECTION_SIGN[lm.section];
+    ctx.font =
+      lang === "ja"
+        ? 'bold 13px var(--font-display-ja), sans-serif'
+        : 'bold 12px var(--font-display), monospace';
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    const signW = Math.max(50, label.length * 9);
+    const signW = Math.max(50, ctx.measureText(label).width + 16);
     const signH = 16;
     const signX = px + w * 0.5 - signW * 0.5;
     const signY = py + h * 0.38 - signH * 0.5;

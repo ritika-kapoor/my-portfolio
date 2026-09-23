@@ -6,6 +6,9 @@ export default {
     extend: {
       fontFamily: {
         display: ["var(--font-display)", "monospace"],
+        // Japanese pixel-style equivalent of `display`, for the house
+        // signs / quick-jump buttons when the language toggle is on 日本語.
+        "display-ja": ["var(--font-display-ja)", "sans-serif"],
         body: ["var(--font-body)", "sans-serif"],
       },
       colors: {

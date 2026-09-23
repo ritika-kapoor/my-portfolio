@@ -148,13 +148,13 @@ export const PROJECTS: Project[] = [
   },
   {
     category: "personal",
-    title: "Quest of Life: pixel-RPG habit tracker (in progress)",
+    title: "Quest of Life: a pixel-RPG habit tracker",
     blurb:
-      "A habit tracker disguised as a pixel-RPG: real habits and to-dos become quests that level up a character, build streaks and fight a daily boss. Building it to learn three things at once: web-game mechanics (map navigation, XP/leveling, boss battles), working with pixel-art game and design asset packs, and AWS infrastructure (Lambda + API Gateway + DynamoDB) for the backend, plus a Gemini-powered AI narrator and guide.",
+      "Yes, that's a real productivity app disguised as a pixel-RPG. Real habits and to-dos become quests: complete them to level up a character, build streaks, and go a round with a fresh boss every day. Started it to learn three things hands-on: web-game mechanics (map navigation, XP and leveling, boss fights), building with pixel-art game and design asset packs instead of from scratch, and real AWS infrastructure (Lambda + API Gateway + DynamoDB) behind it. It also talks back: a Gemini-powered AI narrator reacts to how you're doing, and an AI guide can create quests for you.",
     tech: ["React", "TypeScript", "Vite", "AWS Lambda", "DynamoDB", "Gemini AI"],
     href: "https://quest-of-life.vercel.app",
     images: [
-      { src: "/projects/quest-of-life-map.jpg", alt: "The pixel-art overworld map of Quest of Life, showing buildings for Quests, Guild, Notes and the AI Guide" },
+      { src: "/projects/quest-of-life-hq.jpg", alt: "The HQ / character screen in Quest of Life, showing the Monk class with stamina, focus, willpower and XP bars" },
     ],
   },
   {

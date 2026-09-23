@@ -18,6 +18,21 @@ import {
   SKILLS,
   TIMELINE,
 } from "./content";
+import { useLanguage } from "./LanguageContext";
+import {
+  JA_ABOUT,
+  JA_CERTIFICATIONS,
+  JA_CLUBS,
+  JA_HACKATHON,
+  JA_HIGHLIGHTS,
+  JA_HOBBIES,
+  JA_PHOTO_CAPTIONS,
+  JA_PROJECTS,
+  JA_SECTION_TITLE,
+  JA_TAGLINE,
+  JA_TIMELINE,
+  JA_UI,
+} from "./translations";
 
 type Props = {
   section: SectionKey;
@@ -25,6 +40,9 @@ type Props = {
 };
 
 export function Dialog({ section, onClose }: Props) {
+  const { lang } = useLanguage();
+  const ja = lang === "ja";
+  const title = ja ? JA_SECTION_TITLE[section] : SECTION_TITLE[section];
   return (
     <AnimatePresence>
       <motion.div
@@ -46,19 +64,17 @@ export function Dialog({ section, onClose }: Props) {
         >
           <div className="mb-4 flex items-center justify-between">
             <div>
-              <h2 className="panel-title text-3xl leading-none">
-                {SECTION_TITLE[section]}
-              </h2>
+              <h2 className="panel-title text-3xl leading-none">{title}</h2>
               {section === "about" && (
                 <div className="mt-1 text-sm opacity-70">
-                  {PROFILE.tagline} · {PROFILE.location}
+                  {ja ? JA_TAGLINE : PROFILE.tagline} · {PROFILE.location}
                 </div>
               )}
             </div>
             <button
               onClick={onClose}
               className="panel panel-title px-3 py-1 text-sm"
-              aria-label="Close"
+              aria-label={ja ? JA_UI.close : "Close"}
             >
               ✕
             </button>
@@ -72,7 +88,13 @@ export function Dialog({ section, onClose }: Props) {
           {section === "contact" && <ContactContent />}
 
           <div className="mt-6 text-xs opacity-60">
-            Press <span className="pill">Esc</span> or click outside to close
+            {ja ? (
+              JA_UI.pressEscClose
+            ) : (
+              <>
+                Press <span className="pill">Esc</span> or click outside to close
+              </>
+            )}
           </div>
         </motion.div>
       </motion.div>
@@ -83,6 +105,10 @@ export function Dialog({ section, onClose }: Props) {
 // ---------------- About ----------------
 
 function AboutContent() {
+  const { lang } = useLanguage();
+  const ja = lang === "ja";
+  const intro = ja ? JA_ABOUT.intro : ABOUT.intro;
+  const languages = ja ? JA_ABOUT.languages : ABOUT.languages;
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
@@ -92,16 +118,16 @@ function AboutContent() {
           className="h-32 w-32 flex-none rounded-md border-2 border-ink object-cover shadow-pixel-sm"
         />
         <div className="space-y-3 leading-relaxed">
-          {ABOUT.intro.map((line, i) => (
+          {intro.map((line, i) => (
             <p key={i}>{line}</p>
           ))}
         </div>
       </div>
 
       <div>
-        <SubHeading>Languages</SubHeading>
+        <SubHeading>{ja ? JA_UI.languagesHeading : "Languages"}</SubHeading>
         <ul className="space-y-1 text-sm">
-          {ABOUT.languages.map((l) => (
+          {languages.map((l) => (
             <li key={l.name}>
               <span className="panel-title">{l.name}</span>
               <span className="opacity-70"> · {l.note}</span>
@@ -116,25 +142,32 @@ function AboutContent() {
 // ---------------- Journey ----------------
 
 function JourneyContent() {
+  const { lang } = useLanguage();
+  const ja = lang === "ja";
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
         <div className="flex-1">
-          <SubHeading>Timeline</SubHeading>
+          <SubHeading>{ja ? JA_UI.timeline : "Timeline"}</SubHeading>
           <ol className="space-y-3 border-l-2 border-ink/40 pl-4">
-            {TIMELINE.map((t, i) => (
-              <li key={i} className="relative">
-                <span className="absolute -left-[22px] top-1 h-3 w-3 rounded-full border-2 border-ink bg-firefly" />
-                <div className="panel-title">{t.title}</div>
-                <div className="text-xs opacity-70">
-                  {t.year}
-                  {t.place ? ` · ${t.place}` : ""}
-                </div>
-                {t.detail && (
-                  <p className="mt-1 text-sm leading-relaxed">{t.detail}</p>
-                )}
-              </li>
-            ))}
+            {TIMELINE.map((t, i) => {
+              const tr = JA_TIMELINE[t.title];
+              return (
+                <li key={i} className="relative">
+                  <span className="absolute -left-[22px] top-1 h-3 w-3 rounded-full border-2 border-ink bg-firefly" />
+                  <div className="panel-title">{ja && tr ? tr.title : t.title}</div>
+                  <div className="text-xs opacity-70">
+                    {t.year}
+                    {t.place ? ` · ${t.place}` : ""}
+                  </div>
+                  {t.detail && (
+                    <p className="mt-1 text-sm leading-relaxed">
+                      {ja && tr?.detail ? tr.detail : t.detail}
+                    </p>
+                  )}
+                </li>
+              );
+            })}
           </ol>
         </div>
         <img
@@ -146,23 +179,29 @@ function JourneyContent() {
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <SubHeading>Clubs: now</SubHeading>
+          <SubHeading>{ja ? JA_UI.clubsNow : "Clubs: now"}</SubHeading>
           <ul className="space-y-1 text-sm">
             {CLUBS.now.map((c) => (
               <li key={c.name}>
                 <span className="panel-title">{c.name}</span>
-                <span className="opacity-70"> · {c.note}</span>
+                <span className="opacity-70">
+                  {" "}
+                  · {ja ? (JA_CLUBS[c.name] ?? c.note) : c.note}
+                </span>
               </li>
             ))}
           </ul>
         </div>
         <div>
-          <SubHeading>Clubs: school & college</SubHeading>
+          <SubHeading>{ja ? JA_UI.clubsSchool : "Clubs: school & college"}</SubHeading>
           <ul className="space-y-1 text-sm">
             {CLUBS.school.map((c) => (
               <li key={c.name}>
                 <span className="panel-title">{c.name}</span>
-                <span className="opacity-70"> · {c.note}</span>
+                <span className="opacity-70">
+                  {" "}
+                  · {ja ? (JA_CLUBS[c.name] ?? c.note) : c.note}
+                </span>
               </li>
             ))}
           </ul>
@@ -170,12 +209,12 @@ function JourneyContent() {
       </div>
 
       <div>
-        <SubHeading>Highlights</SubHeading>
+        <SubHeading>{ja ? JA_UI.highlights : "Highlights"}</SubHeading>
         <ul className="space-y-1 text-sm">
           {HIGHLIGHTS.map((h, i) => (
             <li key={i}>
               <span className="pill">{h.year}</span>{" "}
-              <span>{h.text}</span>
+              <span>{ja ? (JA_HIGHLIGHTS[h.text] ?? h.text) : h.text}</span>
             </li>
           ))}
         </ul>
@@ -187,10 +226,16 @@ function JourneyContent() {
 // ---------------- Skills ----------------
 
 function SkillsContent() {
+  const { lang } = useLanguage();
+  const ja = lang === "ja";
   return (
     <div className="space-y-6">
       <div>
-        <SubHeading>Tech : A jack of all trades is a master of none, but oftentimes better than a master of one.</SubHeading>
+        <SubHeading>
+          {ja
+            ? JA_UI.techHeading
+            : "Tech : A jack of all trades is a master of none, but oftentimes better than a master of one."}
+        </SubHeading>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           {SKILLS.tech.map((s) => (
             <div key={s.name} className="panel px-3 py-2">
@@ -211,11 +256,12 @@ function SkillsContent() {
       </div>
 
       <div>
-        <SubHeading>Certifications</SubHeading>
+        <SubHeading>{ja ? JA_UI.certifications : "Certifications"}</SubHeading>
         <ul className="space-y-1 text-sm">
           {SKILLS.certifications.map((c) => (
             <li key={c}>
-              <span className="pill">✓</span> {c}
+              <span className="pill">✓</span>{" "}
+              {ja ? (JA_CERTIFICATIONS[c] ?? c) : c}
             </li>
           ))}
         </ul>
@@ -227,30 +273,32 @@ function SkillsContent() {
 // ---------------- Projects ----------------
 
 function ProjectsContent() {
+  const { lang } = useLanguage();
+  const ja = lang === "ja";
   const work = PROJECTS.filter((p) => p.category === "work");
   const personal = PROJECTS.filter((p) => p.category === "personal");
   const college = PROJECTS.filter((p) => p.category === "college");
   return (
     <div className="space-y-6">
       <div>
-        <SubHeading>Work</SubHeading>
+        <SubHeading>{ja ? JA_UI.work : "Work"}</SubHeading>
         <div className="space-y-3">
           {work.map((p) => (
             <ProjectCard key={p.title} p={p} />
           ))}
         </div>
       </div>
-      <HackathonDetail />
       <div>
-        <SubHeading>Personal · side projects</SubHeading>
+        <SubHeading>{ja ? JA_UI.personalProjects : "Personal · side projects"}</SubHeading>
         <div className="space-y-3">
           {personal.map((p) => (
             <ProjectCard key={p.title} p={p} />
           ))}
         </div>
       </div>
+      <HackathonDetail />
       <div>
-        <SubHeading>College · hardware & tinkering</SubHeading>
+        <SubHeading>{ja ? JA_UI.collegeProjects : "College · hardware & tinkering"}</SubHeading>
         <div className="space-y-3">
           {college.map((p) => (
             <ProjectCard key={p.title} p={p} />
@@ -262,13 +310,19 @@ function ProjectsContent() {
 }
 
 function HackathonDetail() {
+  const { lang } = useLanguage();
+  const ja = lang === "ja";
   return (
     <div>
-      <SubHeading>Hackathon deep dive</SubHeading>
+      <SubHeading>{ja ? JA_UI.hackathonDeepDive : "Hackathon deep dive"}</SubHeading>
       <div className="panel space-y-4 px-4 py-3">
         <div>
-          <h3 className="panel-title text-xl">{HACKATHON.title}</h3>
-          <div className="text-xs opacity-70">{HACKATHON.subtitle}</div>
+          <h3 className="panel-title text-xl">
+            {ja ? JA_HACKATHON.title : HACKATHON.title}
+          </h3>
+          <div className="text-xs opacity-70">
+            {ja ? JA_HACKATHON.subtitle : HACKATHON.subtitle}
+          </div>
         </div>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
           {HACKATHON.images.map((img) => (
@@ -289,29 +343,31 @@ function HackathonDetail() {
                 />
               </a>
               <figcaption className="border-t-2 border-ink bg-sky px-2 py-1 text-xs">
-                {img.caption}
+                {ja ? (JA_HACKATHON.imageCaptions[img.caption] ?? img.caption) : img.caption}
               </figcaption>
             </figure>
           ))}
         </div>
-        <p className="text-xs opacity-60">Tap a photo to open it full size.</p>
-        {HACKATHON.sections.map((sec) => (
-          <div key={sec.label}>
+        <p className="text-xs opacity-60">
+          {ja ? JA_UI.tapPhotoEnlarge : "Tap a photo to open it full size."}
+        </p>
+        {(ja ? JA_HACKATHON.sections : HACKATHON.sections).map((sec, i) => (
+          <div key={i}>
             <div className="panel-title text-sm">{sec.label}</div>
             {sec.body && (
               <p className="mt-1 text-sm leading-relaxed">{sec.body}</p>
             )}
             {sec.items && (
               <ul className="mt-1 list-disc space-y-1 pl-5 text-sm leading-relaxed">
-                {sec.items.map((item) => (
-                  <li key={item}>{item}</li>
+                {sec.items.map((item, j) => (
+                  <li key={j}>{item}</li>
                 ))}
               </ul>
             )}
           </div>
         ))}
         <div>
-          <div className="panel-title mb-1 text-sm">Stack</div>
+          <div className="panel-title mb-1 text-sm">{ja ? "使用技術" : "Stack"}</div>
           <div className="flex flex-wrap gap-1">
             {HACKATHON.tech.map((t) => (
               <span key={t} className="pill">
@@ -326,10 +382,39 @@ function HackathonDetail() {
 }
 
 function ProjectCard({ p }: { p: (typeof PROJECTS)[number] }) {
+  const { lang } = useLanguage();
+  const ja = lang === "ja";
+  const isPersonal = p.category === "personal";
+  const tr = JA_PROJECTS[p.title];
   return (
-    <div className="panel px-4 py-3">
-      <div className="mb-1 flex flex-wrap items-baseline justify-between gap-2">
-        <h3 className="panel-title text-xl">{p.title}</h3>
+    <div
+      className="panel px-4 py-3"
+      style={
+        isPersonal
+          ? {
+              border: "3px solid #249153",
+              background: "#eef3e0",
+              boxShadow: "4px 4px 0 0 rgba(36,145,83,0.9)",
+            }
+          : undefined
+      }
+    >
+      <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <h3 className="panel-title text-xl">{ja && tr ? tr.title : p.title}</h3>
+          {isPersonal && (
+            <span
+              className="pill"
+              style={{
+                border: "2px solid #249153",
+                background: "#249153",
+                color: "#f7e9d0",
+              }}
+            >
+              {ja ? JA_UI.buildingNow : "🌱 building now"}
+            </span>
+          )}
+        </div>
         <div className="flex gap-2 text-sm">
           {p.href && (
             <a
@@ -338,7 +423,7 @@ function ProjectCard({ p }: { p: (typeof PROJECTS)[number] }) {
               rel="noopener noreferrer"
               className="underline"
             >
-              live ↗
+              {ja ? JA_UI.live : "live ↗"}
             </a>
           )}
           {p.repo && (
@@ -348,12 +433,12 @@ function ProjectCard({ p }: { p: (typeof PROJECTS)[number] }) {
               rel="noopener noreferrer"
               className="underline"
             >
-              code ↗
+              {ja ? JA_UI.code : "code ↗"}
             </a>
           )}
         </div>
       </div>
-      <p className="mb-2 text-sm leading-relaxed">{p.blurb}</p>
+      <p className="mb-2 text-sm leading-relaxed">{ja && tr ? tr.blurb : p.blurb}</p>
       {p.images && p.images.length > 0 && (
         <div className="mb-2 flex flex-wrap gap-2">
           {p.images.map((img) =>
@@ -367,23 +452,35 @@ function ProjectCard({ p }: { p: (typeof PROJECTS)[number] }) {
                 muted
                 loop
                 preload="none"
-                className="h-16 w-20 flex-none border-2 border-ink object-cover sm:h-20 sm:w-24"
+                className={
+                  isPersonal
+                    ? "h-28 w-full flex-none border-2 border-ink object-cover sm:h-40 sm:w-64"
+                    : "h-16 w-20 flex-none border-2 border-ink object-cover sm:h-20 sm:w-24"
+                }
               />
             ) : (
               <a
                 key={img.src}
-                href={img.src}
+                href={p.href ?? img.src}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-20 flex-none overflow-hidden border-2 border-ink sm:w-24"
-                aria-label={`Open full-size: ${img.alt}`}
+                className={
+                  isPersonal
+                    ? "block w-full flex-none overflow-hidden border-2 border-ink sm:w-64"
+                    : "block w-20 flex-none overflow-hidden border-2 border-ink sm:w-24"
+                }
+                aria-label={p.href ? `Open ${p.title}` : `Open full-size: ${img.alt}`}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={img.src}
                   alt={img.alt}
                   loading="lazy"
-                  className="h-16 w-full object-cover sm:h-20"
+                  className={
+                    isPersonal
+                      ? "h-28 w-full object-cover sm:h-40"
+                      : "h-16 w-full object-cover sm:h-20"
+                  }
                 />
               </a>
             ),
@@ -406,11 +503,16 @@ function ProjectCard({ p }: { p: (typeof PROJECTS)[number] }) {
 const GALLERY_TITLES: Record<string, string> = {
   Photography: "Camera roll : birds, bugs & in between",
 };
+const JA_GALLERY_TITLES: Record<string, string> = {
+  Photography: JA_UI.cameraRoll,
+};
 
 // Large galleries show this many tiles before a "View all" toggle appears.
 const GALLERY_PAGE_SIZE = 9;
 
 function HobbiesContent() {
+  const { lang } = useLanguage();
+  const ja = lang === "ja";
   const galleryFor = (hobby: string) => PHOTOS.filter((p) => p.hobby === hobby);
   const coversFor = (hobby: string) => COVERS.filter((c) => c.hobby === hobby);
   const [active, setActive] = useState<string>(
@@ -420,18 +522,20 @@ function HobbiesContent() {
   const allPhotos = active ? galleryFor(active) : [];
   const photos = showAll ? allPhotos : allPhotos.slice(0, GALLERY_PAGE_SIZE);
   const covers = active ? coversFor(active) : [];
+  const activeName = ja ? (JA_HOBBIES[active] ?? active) : active;
 
   return (
     <div className="space-y-6">
       <div>
-        <SubHeading>Off-screen</SubHeading>
+        <SubHeading>{ja ? JA_UI.offScreen : "Off-screen"}</SubHeading>
         <div className="flex flex-wrap gap-1">
           {HOBBIES.map((h) => {
             const count = galleryFor(h).length + coversFor(h).length;
+            const label = ja ? (JA_HOBBIES[h] ?? h) : h;
             if (count === 0) {
               return (
                 <span key={h} className="pill">
-                  {h}
+                  {label}
                 </span>
               );
             }
@@ -449,19 +553,23 @@ function HobbiesContent() {
                   selected ? "bg-firefly" : ""
                 }`}
               >
-                {h} · {count}
+                {label} · {count}
               </button>
             );
           })}
         </div>
         <p className="mt-2 text-xs opacity-70">
-          Pick a hobby with a number to see its gallery.
+          {ja ? JA_UI.pickHobby : "Pick a hobby with a number to see its gallery."}
         </p>
       </div>
 
       {photos.length > 0 && (
         <div>
-          <SubHeading>{GALLERY_TITLES[active] ?? `${active} : gallery`}</SubHeading>
+          <SubHeading>
+            {ja
+              ? (JA_GALLERY_TITLES[active] ?? `${activeName} : ${JA_UI.hobbiesGallery}`)
+              : (GALLERY_TITLES[active] ?? `${active} : gallery`)}
+          </SubHeading>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
             {photos.map((p) => (
               <PhotoTile key={p.src} photo={p} />
@@ -473,7 +581,13 @@ function HobbiesContent() {
               onClick={() => setShowAll((v) => !v)}
               className="pill mt-2 cursor-pointer"
             >
-              {showAll ? "Show fewer" : `View all ${allPhotos.length}`}
+              {ja
+                ? showAll
+                  ? JA_UI.showFewer
+                  : JA_UI.viewAll(allPhotos.length)
+                : showAll
+                  ? "Show fewer"
+                  : `View all ${allPhotos.length}`}
             </button>
           )}
         </div>
@@ -481,10 +595,18 @@ function HobbiesContent() {
 
       {covers.length > 0 && (
         <div>
-          <SubHeading>{active} : what I&apos;m into</SubHeading>
+          <SubHeading>
+            {ja ? `${activeName} : ${JA_UI.whatImInto}` : <>{active} : what I&apos;m into</>}
+          </SubHeading>
           <p className="mb-2 text-xs opacity-70">
-            Cover art, not my own photos, just here to show what I&apos;m reading
-            or watching.
+            {ja ? (
+              JA_UI.coverArtNote
+            ) : (
+              <>
+                Cover art, not my own photos, just here to show what I&apos;m reading
+                or watching.
+              </>
+            )}
           </p>
           <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
             {covers.map((c) => (
@@ -508,6 +630,9 @@ function HobbiesContent() {
 }
 
 function PhotoTile({ photo: p }: { photo: (typeof PHOTOS)[number] }) {
+  const { lang } = useLanguage();
+  const ja = lang === "ja";
+  const caption = ja ? (JA_PHOTO_CAPTIONS[p.src] ?? p.caption) : p.caption;
   return (
     <figure className="overflow-hidden border-2 border-ink">
       {p.video ? (
@@ -547,9 +672,9 @@ function PhotoTile({ photo: p }: { photo: (typeof PHOTOS)[number] }) {
           />
         </a>
       )}
-      {p.caption && (
+      {caption && (
         <figcaption className="border-t-2 border-ink bg-sky px-2 py-1 text-xs">
-          {p.caption}
+          {caption}
         </figcaption>
       )}
     </figure>
@@ -559,6 +684,8 @@ function PhotoTile({ photo: p }: { photo: (typeof PHOTOS)[number] }) {
 // ---------------- Contact ----------------
 
 function ContactContent() {
+  const { lang } = useLanguage();
+  const ja = lang === "ja";
   const [copied, setCopied] = useState<string | null>(null);
   useEffect(() => {
     if (!copied) return;
@@ -578,15 +705,23 @@ function ContactContent() {
   return (
     <div className="space-y-3">
       <p className="leading-relaxed">
-        Best way to reach me is email. LinkedIn works well too, and Instagram
-        is the informal reflection of me.
+        {ja ? (
+          JA_UI.contactIntro
+        ) : (
+          <>
+            Best way to reach me is email. LinkedIn works well too, and Instagram
+            is the informal reflection of me.
+          </>
+        )}
       </p>
 
       <ContactRow
-        label="Email"
+        label={ja ? JA_UI.email : "Email"}
         value={PROFILE.email}
         onCopy={() => copy(PROFILE.email, "email")}
         copied={copied === "email"}
+        copyLabel={ja ? JA_UI.copy : "copy"}
+        copiedLabel={ja ? JA_UI.copied : "copied!"}
         href={`mailto:${PROFILE.email}`}
       />
       <ContactRow
@@ -594,6 +729,8 @@ function ContactContent() {
         value={PROFILE.linkedin.replace(/^https?:\/\//, "")}
         onCopy={() => copy(PROFILE.linkedin, "linkedin")}
         copied={copied === "linkedin"}
+        copyLabel={ja ? JA_UI.copy : "copy"}
+        copiedLabel={ja ? JA_UI.copied : "copied!"}
         href={PROFILE.linkedin}
       />
       <ContactRow
@@ -601,6 +738,8 @@ function ContactContent() {
         value={PROFILE.instagram.replace(/^https?:\/\//, "")}
         onCopy={() => copy(PROFILE.instagram, "instagram")}
         copied={copied === "instagram"}
+        copyLabel={ja ? JA_UI.copy : "copy"}
+        copiedLabel={ja ? JA_UI.copied : "copied!"}
         href={PROFILE.instagram}
       />
     </div>
@@ -612,12 +751,16 @@ function ContactRow({
   value,
   onCopy,
   copied,
+  copyLabel,
+  copiedLabel,
   href,
 }: {
   label: string;
   value: string;
   onCopy: () => void;
   copied: boolean;
+  copyLabel: string;
+  copiedLabel: string;
   href: string;
 }) {
   return (
@@ -632,7 +775,7 @@ function ContactRow({
         {value}
       </a>
       <button onClick={onCopy} className="panel panel-title px-2 py-1 text-xs">
-        {copied ? "copied!" : "copy"}
+        {copied ? copiedLabel : copyLabel}
       </button>
     </div>
   );

@@ -4,7 +4,9 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import type { SectionKey } from "./world";
 import { SECTION_SIGN, SECTION_TITLE } from "./world";
+import { JA_SECTION_SIGN, JA_SECTION_TITLE } from "./translations";
 import { PROFILE } from "./content";
+import { useLanguage } from "./LanguageContext";
 
 type Props = {
   nearLabel: string | null;
@@ -14,6 +16,7 @@ type Props = {
 };
 
 export function Hud({ nearLabel, showIntro, onDismissIntro, onOpenSection }: Props) {
+  const { lang, toggle } = useLanguage();
   return (
     <>
       {/* Corner controls hint (keyboard only; touch devices get the d-pad) */}
@@ -28,6 +31,13 @@ export function Hud({ nearLabel, showIntro, onDismissIntro, onOpenSection }: Pro
         >
           Plain version ▸
         </Link>
+        <button
+          onClick={toggle}
+          className="panel panel-title px-3 py-1 text-sm transition hover:-translate-y-[2px] hover:shadow-[6px_6px_0_0_rgba(58,42,26,0.9)]"
+          aria-label={lang === "en" ? "Switch to Japanese" : "Switch to English"}
+        >
+          {lang === "en" ? "日本語" : "EN"}
+        </button>
       </div>
 
       {/* Quick jump menu, top-right */}
@@ -37,9 +47,14 @@ export function Hud({ nearLabel, showIntro, onDismissIntro, onOpenSection }: Pro
             key={k}
             onClick={() => onOpenSection(k)}
             className="panel panel-title px-1.5 py-1 text-xs transition hover:-translate-y-[2px] hover:shadow-[6px_6px_0_0_rgba(58,42,26,0.9)] sm:px-3 sm:text-sm"
-            title={SECTION_TITLE[k]}
+            style={
+              lang === "ja"
+                ? { fontFamily: "var(--font-display-ja), sans-serif" }
+                : undefined
+            }
+            title={lang === "ja" ? JA_SECTION_TITLE[k] : SECTION_TITLE[k]}
           >
-            {SECTION_SIGN[k]}
+            {lang === "ja" ? JA_SECTION_SIGN[k] : SECTION_SIGN[k]}
           </button>
         ))}
       </div>
