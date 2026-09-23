@@ -228,6 +228,9 @@ function drawFloatingGlyphs(
 }
 const NOTE_GLYPHS = ["♪", "♫", "♪", "♬", "♫"];
 const SPARK_GLYPHS = ["✦", "✧", "✦"];
+const GEAR_GLYPHS = ["◆", "◇", "◆"];
+const COMPASS_GLYPHS = ["→", "›", "→", "←", "⇦", "⇧", "⇩"];
+const ENVELOPE_GLYPHS = ["✉", "✦"];
 
 // A gear that spins continuously above the Skills house while the player
 // is standing near its door.
@@ -237,7 +240,7 @@ function drawSpinningGear(
   cy: number,
   t: number,
 ) {
-  const r = 7;
+  const r = 10;
   const teeth = 6;
   ctx.save();
   ctx.translate(cx, cy);
@@ -247,14 +250,14 @@ function drawSpinningGear(
   for (let i = 0; i < teeth; i++) {
     const a0 = (i / teeth) * Math.PI * 2;
     const a1 = a0 + Math.PI / teeth;
-    ctx.lineTo(Math.cos(a0) * (r + 3), Math.sin(a0) * (r + 3));
+    ctx.lineTo(Math.cos(a0) * (r + 4), Math.sin(a0) * (r + 4));
     ctx.lineTo(Math.cos(a1) * r, Math.sin(a1) * r);
   }
   ctx.closePath();
   ctx.fill();
   ctx.fillStyle = "#7dc7d6";
   ctx.beginPath();
-  ctx.arc(0, 0, 3, 0, Math.PI * 2);
+  ctx.arc(0, 0, 4, 0, Math.PI * 2);
   ctx.fill();
   ctx.restore();
 }
@@ -267,10 +270,10 @@ function drawSwingingCompass(
   cy: number,
   t: number,
 ) {
-  const r = 7;
+  const r = 10;
   ctx.fillStyle = "#f7e9d0";
   ctx.strokeStyle = "#8a6f35";
-  ctx.lineWidth = 1.5;
+  ctx.lineWidth = 1.8;
   ctx.beginPath();
   ctx.arc(cx, cy, r, 0, Math.PI * 2);
   ctx.fill();
@@ -278,26 +281,26 @@ function drawSwingingCompass(
 
   ctx.save();
   ctx.translate(cx, cy);
-  ctx.rotate(Math.sin(t * 1.8) * 0.9);
+  ctx.rotate(Math.sin(t * 1.8) * 1.3);
   ctx.fillStyle = "#c14e4e";
   ctx.beginPath();
-  ctx.moveTo(0, -r + 1.5);
-  ctx.lineTo(-2, 0);
-  ctx.lineTo(2, 0);
+  ctx.moveTo(0, -r + 2);
+  ctx.lineTo(-2.5, 0);
+  ctx.lineTo(2.5, 0);
   ctx.closePath();
   ctx.fill();
   ctx.fillStyle = "#3a2a1a";
   ctx.beginPath();
-  ctx.moveTo(0, r - 1.5);
-  ctx.lineTo(-2, 0);
-  ctx.lineTo(2, 0);
+  ctx.moveTo(0, r - 2);
+  ctx.lineTo(-2.5, 0);
+  ctx.lineTo(2.5, 0);
   ctx.closePath();
   ctx.fill();
   ctx.restore();
 
   ctx.fillStyle = "#3a2a1a";
   ctx.beginPath();
-  ctx.arc(cx, cy, 1.3, 0, Math.PI * 2);
+  ctx.arc(cx, cy, 1.8, 0, Math.PI * 2);
   ctx.fill();
 }
 
@@ -308,29 +311,29 @@ function drawSpeechBubble(
   bottomY: number,
   t: number,
 ) {
-  const w = 24;
-  const h = 15;
+  const w = 42;
+  const h = 26;
   const bx = cx - w / 2;
   const by = bottomY - h - 6;
   ctx.fillStyle = "#f7e9d0";
   ctx.strokeStyle = "#3a2a1a";
-  ctx.lineWidth = 1.3;
+  ctx.lineWidth = 1.8;
   ctx.beginPath();
-  ctx.roundRect(bx, by, w, h, 4);
+  ctx.roundRect(bx, by, w, h, 6);
   ctx.fill();
   ctx.stroke();
   ctx.beginPath();
-  ctx.moveTo(cx - 3, by + h);
-  ctx.lineTo(cx, by + h + 5);
-  ctx.lineTo(cx + 3, by + h);
+  ctx.moveTo(cx - 5, by + h);
+  ctx.lineTo(cx, by + h + 9);
+  ctx.lineTo(cx + 5, by + h);
   ctx.closePath();
   ctx.fillStyle = "#f7e9d0";
   ctx.fill();
   for (let i = 0; i < 3; i++) {
-    const s = 1.5 + Math.sin(t * 4 + i * 1.4) * 0.8;
+    const s = 2.6 + Math.sin(t * 4 + i * 1.4) * 1.5;
     ctx.fillStyle = "#3a2a1a";
     ctx.beginPath();
-    ctx.arc(bx + w * 0.25 * (i + 1), by + h / 2, Math.max(0.6, s), 0, Math.PI * 2);
+    ctx.arc(bx + w * 0.25 * (i + 1), by + h / 2, Math.max(0.8, s), 0, Math.PI * 2);
     ctx.fill();
   }
 }
@@ -342,13 +345,13 @@ function drawBobbingEnvelope(
   topY: number,
   t: number,
 ) {
-  const y = topY + Math.sin(t * 2.2) * 3;
-  const w = 18;
-  const h = 12;
+  const y = topY + Math.sin(t * 2.2) * 5;
+  const w = 24;
+  const h = 16;
   const x = cx - w / 2;
   ctx.fillStyle = "#f7e9d0";
   ctx.strokeStyle = "#3a2a1a";
-  ctx.lineWidth = 1.2;
+  ctx.lineWidth = 1.6;
   ctx.beginPath();
   ctx.rect(x, y, w, h);
   ctx.fill();
@@ -457,13 +460,16 @@ export function drawLandmarks(
         "#3a1d10",
       );
     } else if (lm.section === "skills" && nearSection === "skills") {
-      drawSpinningGear(ctx, px + w * 0.5, py - 8, t);
+      drawSpinningGear(ctx, px + w * 0.5, py - 10, t);
+      drawFloatingGlyphs(ctx, px + w * 0.5, py - 4, t, GEAR_GLYPHS, "#1e3450", "#0c1824");
     } else if (lm.section === "journey" && nearSection === "journey") {
-      drawSwingingCompass(ctx, px + w * 0.5, py - 8, t);
+      drawSwingingCompass(ctx, px + w * 0.5, py - 10, t);
+      drawFloatingGlyphs(ctx, px + w * 0.5, py - 4, t, COMPASS_GLYPHS, "#5c3f14", "#2c1c08");
     } else if (lm.section === "about" && nearSection === "about") {
-      drawSpeechBubble(ctx, px + w * 0.5, py + 10, t);
+      drawSpeechBubble(ctx, px + w * 0.5, py + 14, t);
     } else if (lm.section === "contact" && nearSection === "contact") {
-      drawBobbingEnvelope(ctx, px + w * 0.5, py - 10, t);
+      drawBobbingEnvelope(ctx, px + w * 0.5, py - 12, t);
+      drawFloatingGlyphs(ctx, px + w * 0.5, py - 4, t, ENVELOPE_GLYPHS, "#3d5c26", "#1c2c10");
     }
   }
 }
@@ -482,62 +488,95 @@ export function drawPlayer(
   const cx = px;
   const cy = py + bob;
 
+  // ground shadow
   ctx.fillStyle = "rgba(0,0,0,0.25)";
   ctx.beginPath();
-  ctx.ellipse(cx, py + 14, 9, 3, 0, 0, Math.PI * 2);
+  ctx.ellipse(cx, py + 16, 10, 3.3, 0, 0, Math.PI * 2);
   ctx.fill();
 
-  ctx.fillStyle = "#c14e4e";
+  const HAIR = "#2a1c14";
+
+  // long hair falling past the shoulders, drawn first so the head and
+  // dress (drawn next) cover the inner part, leaving the sides visible
+  ctx.fillStyle = HAIR;
   ctx.beginPath();
-  ctx.roundRect(cx - 7, cy - 2, 14, 12, 3);
+  ctx.roundRect(cx - 8.5, cy - 9, 3.5, 14, 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.roundRect(cx + 5, cy - 9, 3.5, 14, 2);
   ctx.fill();
 
-  ctx.fillStyle = "#3a4a6a";
-  ctx.fillRect(cx - 5, cy + 8, 4, 5);
-  ctx.fillRect(cx + 1, cy + 8, 4, 5);
+  // dress: fitted bodice, flared skirt with a shaded hem
+  const DRESS = "#e0748a";
+  const DRESS_DARK = "#a8506a";
+  ctx.fillStyle = DRESS;
+  ctx.beginPath();
+  ctx.moveTo(cx - 6.5, cy - 3);
+  ctx.lineTo(cx + 6.5, cy - 3);
+  ctx.lineTo(cx + 10.5, cy + 13);
+  ctx.lineTo(cx - 10.5, cy + 13);
+  ctx.closePath();
+  ctx.fill();
+  ctx.fillStyle = DRESS_DARK;
+  ctx.beginPath();
+  ctx.moveTo(cx - 10.5, cy + 13);
+  ctx.lineTo(cx + 10.5, cy + 13);
+  ctx.lineTo(cx + 8.5, cy + 10);
+  ctx.lineTo(cx - 8.5, cy + 10);
+  ctx.closePath();
+  ctx.fill();
 
+  // small shoes peeking out from under the hem
+  ctx.fillStyle = "#3a2a1a";
+  ctx.fillRect(cx - 5.5, cy + 13, 4.5, 2.5);
+  ctx.fillRect(cx + 1, cy + 13, 4.5, 2.5);
+
+  // head
   ctx.fillStyle = "#f2c99a";
   ctx.beginPath();
-  ctx.arc(cx, cy - 6, 6, 0, Math.PI * 2);
+  ctx.arc(cx, cy - 7, 7, 0, Math.PI * 2);
   ctx.fill();
-  ctx.fillStyle = "#3a2a1a";
+
+  // hair cap over the top of the head
+  ctx.fillStyle = HAIR;
   ctx.beginPath();
-  ctx.arc(cx, cy - 8, 6.5, Math.PI, 0);
+  ctx.arc(cx, cy - 9, 7.5, Math.PI, 0);
   ctx.fill();
+
   ctx.fillStyle = "#3a2a1a";
   if (facing === "down") {
-    ctx.fillRect(cx - 3, cy - 6, 1.5, 1.5);
-    ctx.fillRect(cx + 1.5, cy - 6, 1.5, 1.5);
+    ctx.fillRect(cx - 3.5, cy - 7, 1.7, 1.7);
+    ctx.fillRect(cx + 1.8, cy - 7, 1.7, 1.7);
   } else if (facing === "left") {
-    ctx.fillRect(cx - 4, cy - 6, 1.5, 1.5);
+    ctx.fillRect(cx - 4.5, cy - 7, 1.7, 1.7);
   } else if (facing === "right") {
-    ctx.fillRect(cx + 2.5, cy - 6, 1.5, 1.5);
+    ctx.fillRect(cx + 2.8, cy - 7, 1.7, 1.7);
   }
 
   // A pair of glasses appears while standing near the Projects door, with
   // a little glint of light sweeping across the lenses every so often.
   if (nearSection === "projects") {
     ctx.strokeStyle = "#2a2a2a";
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 1.1;
     ctx.beginPath();
-    ctx.roundRect(cx - 6.5, cy - 8.5, 4.5, 4, 1);
-    ctx.roundRect(cx + 2, cy - 8.5, 4.5, 4, 1);
+    ctx.roundRect(cx - 7, cy - 9.5, 5, 4.5, 1);
+    ctx.roundRect(cx + 2, cy - 9.5, 5, 4.5, 1);
     ctx.stroke();
     ctx.beginPath();
-    ctx.moveTo(cx - 2, cy - 6.5);
-    ctx.lineTo(cx + 2, cy - 6.5);
+    ctx.moveTo(cx - 2, cy - 7.3);
+    ctx.lineTo(cx + 2, cy - 7.3);
     ctx.stroke();
 
     const glintCycle = 1.6;
     const gp = (t % glintCycle) / glintCycle;
     if (gp < 0.4) {
       const sweep = gp / 0.4; // 0..1 across the sweep window
-      const sx = cx - 6 + sweep * 13;
+      const sx = cx - 6.5 + sweep * 14;
       ctx.strokeStyle = `rgba(255,255,255,${0.9 * Math.sin(sweep * Math.PI)})`;
-      ctx.lineWidth = 1.2;
+      ctx.lineWidth = 1.3;
       ctx.beginPath();
-      ctx.moveTo(sx - 1.3, cy - 9.3);
-      ctx.lineTo(sx + 1.3, cy - 6.7);
+      ctx.moveTo(sx - 1.4, cy - 10.3);
+      ctx.lineTo(sx + 1.4, cy - 7.5);
       ctx.stroke();
     }
   }

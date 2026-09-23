@@ -96,11 +96,6 @@ function AboutContent() {
             <p key={i}>{line}</p>
           ))}
         </div>
-        <img
-          src={PROFILE.aboutPhoto}
-          alt={`${PROFILE.name} jumping joyfully on campus`}
-          className="h-40 w-32 flex-none self-center rounded-md border-2 border-ink object-cover shadow-pixel-sm sm:self-start"
-        />
       </div>
 
       <div>
@@ -123,23 +118,30 @@ function AboutContent() {
 function JourneyContent() {
   return (
     <div className="space-y-6">
-      <div>
-        <SubHeading>Timeline</SubHeading>
-        <ol className="space-y-3 border-l-2 border-ink/40 pl-4">
-          {TIMELINE.map((t, i) => (
-            <li key={i} className="relative">
-              <span className="absolute -left-[22px] top-1 h-3 w-3 rounded-full border-2 border-ink bg-firefly" />
-              <div className="panel-title">{t.title}</div>
-              <div className="text-xs opacity-70">
-                {t.year}
-                {t.place ? ` · ${t.place}` : ""}
-              </div>
-              {t.detail && (
-                <p className="mt-1 text-sm leading-relaxed">{t.detail}</p>
-              )}
-            </li>
-          ))}
-        </ol>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+        <div className="flex-1">
+          <SubHeading>Timeline</SubHeading>
+          <ol className="space-y-3 border-l-2 border-ink/40 pl-4">
+            {TIMELINE.map((t, i) => (
+              <li key={i} className="relative">
+                <span className="absolute -left-[22px] top-1 h-3 w-3 rounded-full border-2 border-ink bg-firefly" />
+                <div className="panel-title">{t.title}</div>
+                <div className="text-xs opacity-70">
+                  {t.year}
+                  {t.place ? ` · ${t.place}` : ""}
+                </div>
+                {t.detail && (
+                  <p className="mt-1 text-sm leading-relaxed">{t.detail}</p>
+                )}
+              </li>
+            ))}
+          </ol>
+        </div>
+        <img
+          src={PROFILE.aboutPhoto}
+          alt={`${PROFILE.name} jumping joyfully on campus`}
+          className="h-44 w-36 flex-none self-center rounded-md border-2 border-ink object-cover shadow-pixel-sm sm:self-start"
+        />
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">

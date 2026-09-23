@@ -19,7 +19,7 @@ export const ABOUT = {
   intro: [
     "Hi! I'm Ritika, a software developer based in Tokyo.",
     "I was born in Baroda, Gujarat, and grew up as an army kid, packing up and starting over in a new city every few years. That upbringing either makes you shy or curious; I ended up curious, with a soft spot for finding my footing in new places.",
-    "Engineering took me to New Horizon College of Engineering, a small college in Bangalore, for Electrical & Electronics. From there I landed a direct placement into a Japanese firm in Tokyo. The journey wasn't easy, but it was full of learning.",
+    "Engineering took me to New Horizon College of Engineering in Bangalore, for Electrical & Electronics. From there I landed a direct placement into a Japanese firm in Tokyo. The journey wasn't easy, but it was full of learning.",
     "Studying EEE didn't stop me from falling in love with software. I started as an absolute non-coder and grew into the role on the job, picking up Rails, Laravel, Svelte, React/Next.js, PHP, and WordPress as the codebase asked for them.",
     "The Japanese workplace taught me discipline, attention to detail, and workflow craftsmanship. I like small tools, clear specs, and building things that actually make it into someone's day.",
   ],
